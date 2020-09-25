@@ -5,12 +5,13 @@ import Grid from '@material-ui/core/Grid';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField'
+import MenuNav from './MenuNav';
+import { Link } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     overflow: 'hidden',
-    marginTop: '5%',
   },
   paper: {
     maxWidth: '80%',
@@ -21,9 +22,7 @@ const useStyles = makeStyles((theme) => ({
       width:'80%',
       margin: `${theme.spacing(4)}px 10%`,
       backgroundColor: 'white',
-
-
-  }
+  },
 }));
 
 const message = `Truncation should be conditionally applicable on this long line of text
@@ -41,6 +40,7 @@ export default function AutoGridNoWrap() {
 
   return (
     <div className={classes.root}>
+      <MenuNav/>
       <TextField
       className={classes.input}
       id="outlined-textarea"
@@ -48,6 +48,7 @@ export default function AutoGridNoWrap() {
       multiline
       variant="outlined"
       />
+     <a href="#">
       <Paper className={classes.paper}>
         <Grid container wrap="nowrap" spacing={2}>
           <Grid item>
@@ -58,6 +59,7 @@ export default function AutoGridNoWrap() {
           </Grid>
         </Grid>
       </Paper>
+      </a>
       <Paper className={classes.paper}>
         <Grid container wrap="nowrap" spacing={2}>
           <Grid item>
