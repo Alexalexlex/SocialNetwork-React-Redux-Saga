@@ -91,8 +91,8 @@ class Main extends React.Component {
                         </Grid>
                     </Grid>
                 </form>
-                <Link to="#" className={this.props.classes.link}>
                     <Paper className={this.props.classes.paper}>
+                    <Link to="#" className={this.props.classes.link}>
                         <Grid container wrap="nowrap" spacing={2}>
                             <Grid item>
                                 <Avatar>W</Avatar>
@@ -104,54 +104,53 @@ class Main extends React.Component {
                                 <Typography>{message}</Typography>
                             </Grid>
                         </Grid>
+                        </Link>
                     </Paper>
-                </Link>
-                <Link to="#" className={this.props.classes.link}>
                     <Paper className={this.props.classes.paper}>
+                    <Link to="#" className={this.props.classes.link}>
                         <Grid container wrap="nowrap" spacing={2}>
                             <Grid item>
                                 <Avatar>W</Avatar>
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    Heading
+                                    {this.props.id}
                                 </Typography>
                                 <Typography>{message}</Typography>
                             </Grid>
                         </Grid>
+                        </Link>
                     </Paper>
-                </Link>
-                <Link to="#" className={this.props.classes.link}>
                     <Paper className={this.props.classes.paper}>
+                    <Link to="#" className={this.props.classes.link}>
                         <Grid container wrap="nowrap" spacing={2}>
                             <Grid item>
                                 <Avatar>W</Avatar>
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    
+                                    {this.props.id}
                                 </Typography>
                                 <Typography>{message}</Typography>
                             </Grid>
                         </Grid>
+                        </Link>
                     </Paper>
-                </Link>
-                <Link to="#" className={this.props.classes.link}>
                     <Paper className={this.props.classes.paper}>
+                    <Link to="#" className={this.props.classes.link}>
                         <Grid container wrap="nowrap" spacing={2}>
                             <Grid item>
                                 <Avatar>W</Avatar>
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    Heading
+                                    {this.props.id}
                                 </Typography>
                                 <Typography>{message}</Typography>
                             </Grid>
                         </Grid>
+                        </Link>
                     </Paper>
-                </Link>
-                
             </div>
         );
     }

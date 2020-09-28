@@ -1,9 +1,8 @@
-export const initialState = {
-    user: 'Admin',
-    password: 'admin',
-    id: Date.now()
-  }
-  
-  export function rootReducer(state = initialState) {
-    return state
-  }
+import { combineReducers } from 'redux'
+import { postsReducer } from './posts'
+import { userReducer } from './users'
+
+export const rootReducer = combineReducers({
+  user: userReducer,
+  post: postsReducer,
+})
