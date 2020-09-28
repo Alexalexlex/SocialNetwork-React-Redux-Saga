@@ -52,119 +52,108 @@ sit aut assumenda doloribus cumque beatae.`;
 
 class Main extends React.Component {
     render() {
-    return (
-        <div className={this.props.classes.root}>
-            <MenuNav />
-            <form>
-            <Grid
-                container
-                className={this.props.classes.grid}
-                direction="column"
-                justify="flex-start"
-                alignItems="flex-end"
-                alignContent="center"
-            >
-                <TextField
-                    className={this.props.classes.input}
-                    label="Heading"
-                    autoComplete="current-password"
-                    variant="outlined"
-                />
-                <TextField
-                    className={this.props.classes.input}
-                    id="outlined-textarea"
-                    label="Description"
-                    multiline
-                    variant="outlined"
-                />
-                <Grid item>
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className={this.props.classes.button}
-                        endIcon={<Icon>send</Icon>}
+        return (
+            <div className={this.props.classes.root}>
+                <MenuNav />
+                <form>
+                    <Grid
+                        container
+                        className={this.props.classes.grid}
+                        direction="column"
+                        justify="flex-start"
+                        alignItems="flex-end"
+                        alignContent="center"
                     >
-                        Send
-                 </Button>
-                </Grid>
-            </Grid>
-            </form>
-            <Link to="#" className={this.props.classes.link}>
-                <Paper className={this.props.classes.paper}>
-                    <Grid container wrap="nowrap" spacing={2}>
+                        <TextField
+                            className={this.props.classes.input}
+                            label="Heading"
+                            autoComplete="current-password"
+                            variant="outlined"
+                        />
+                        <TextField
+                            className={this.props.classes.input}
+                            id="outlined-textarea"
+                            label="Description"
+                            multiline
+                            variant="outlined"
+                        />
                         <Grid item>
-                            <Avatar>W</Avatar>
+                            <Button
+                                type="submit"
+                                variant="contained"
+                                color="primary"
+                                className={this.props.classes.button}
+                                endIcon={<Icon>send</Icon>}
+                            >
+                                Send
+                 </Button>
                         </Grid>
-                        <Grid item xs>
-                            <Typography>{message}</Typography>
+                    </Grid>
+                </form>
+                <Link to="#" className={this.props.classes.link}>
+                    <Paper className={this.props.classes.paper}>
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Avatar>W</Avatar>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography variant="h5" gutterBottom>
+                                    Heading
+                                </Typography>
+                                <Typography>{message}</Typography>
+                            </Grid>
                         </Grid>
-                    </Grid>
-                </Paper>
-            </Link>
-            <Paper className={this.props.classes.paper}>
-                <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                        <Avatar>W</Avatar>
-                    </Grid>
-                    <Grid item xs>
-                        <Typography>{message}</Typography>
-                    </Grid>
-                </Grid>
-            </Paper>
-            <Paper className={this.props.classes.paper}>
-                <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                        <Avatar>W</Avatar>
-                    </Grid>
-                    <Grid item xs>
-                        <Typography>{message}</Typography>
-                    </Grid>
-                </Grid>
-            </Paper>
-            <Paper className={this.props.classes.paper}>
-                <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                        <Avatar>W</Avatar>
-                    </Grid>
-                    <Grid item xs>
-                        <Typography>{message}</Typography>
-                    </Grid>
-                </Grid>
-            </Paper>
-            <Paper className={this.props.classes.paper}>
-                <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                        <Avatar>W</Avatar>
-                    </Grid>
-                    <Grid item xs>
-                        <Typography>{message}</Typography>
-                    </Grid>
-                </Grid>
-            </Paper>
-            <Paper className={this.props.classes.paper}>
-                <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                        <Avatar>W</Avatar>
-                    </Grid>
-                    <Grid item xs>
-                        <Typography>{message}</Typography>
-                    </Grid>
-                </Grid>
-            </Paper>
-            <Paper className={this.props.classes.paper}>
-                <Grid container wrap="nowrap" spacing={2}>
-                    <Grid item>
-                        <Avatar>W</Avatar>
-                    </Grid>
-                    <Grid item xs>
-                        <Typography>{message}</Typography>
-                    </Grid>
-                </Grid>
-            </Paper>
-        </div>
-    );
-}
+                    </Paper>
+                </Link>
+                <Link to="#" className={this.props.classes.link}>
+                    <Paper className={this.props.classes.paper}>
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Avatar>W</Avatar>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography variant="h5" gutterBottom>
+                                    Heading
+                                </Typography>
+                                <Typography>{message}</Typography>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Link>
+                <Link to="#" className={this.props.classes.link}>
+                    <Paper className={this.props.classes.paper}>
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Avatar>W</Avatar>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography variant="h5" gutterBottom>
+                                    Heading
+                                </Typography>
+                                <Typography>{message}</Typography>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Link>
+                <Link to="#" className={this.props.classes.link}>
+                    <Paper className={this.props.classes.paper}>
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Avatar>W</Avatar>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography variant="h5" gutterBottom>
+                                    Heading
+                                </Typography>
+                                <Typography>{message}</Typography>
+                            </Grid>
+                        </Grid>
+                    </Paper>
+                </Link>
+                
+            </div>
+        );
+    }
 }
 
 export default withStyles(classes)(Main)
