@@ -7,40 +7,38 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles((theme) => ({
+const classes = {
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: '20%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    margin: '1rem',
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
+    marginTop: '1rem',
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    marginBottom: '1rem',
   },
-}));
+};
 
-export default function SignIn() {
-  const classes = useStyles();
-
+class SignIn extends React.Component {
+render() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <div className={this.props.classes.paper}>
         <Typography component="h1" variant="h5">
           Sign in
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={this.props.classes.form} noValidate>
           <TextField
             variant="outlined"
             margin="normal"
@@ -72,7 +70,7 @@ export default function SignIn() {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className={this.props.classes.submit}
           >
             Sign In
           </Button>
@@ -90,3 +88,6 @@ export default function SignIn() {
     </Container>
   );
 }
+}
+
+export default withStyles(classes)(SignIn)
