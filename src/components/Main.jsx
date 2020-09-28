@@ -51,6 +51,7 @@ adipisicing elit. Omnis explicabo maxime atque perferendis optio, laboriosam cul
 sit aut assumenda doloribus cumque beatae.`;
 
 class Main extends React.Component {
+
     render() {
         return (
             <div className={this.props.classes.root}>
@@ -98,7 +99,7 @@ class Main extends React.Component {
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    Heading
+                                    {this.props.id}
                                 </Typography>
                                 <Typography>{message}</Typography>
                             </Grid>
@@ -128,7 +129,7 @@ class Main extends React.Component {
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    Heading
+                                    
                                 </Typography>
                                 <Typography>{message}</Typography>
                             </Grid>
