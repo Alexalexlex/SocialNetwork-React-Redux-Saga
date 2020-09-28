@@ -5,40 +5,38 @@ import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles((theme) => ({
+const classes = {
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: '20%',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
   avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
+    margin: '100px',
   },
   form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
+    width: '100%',
+    marginTop: '1em',
   },
   submit: {
-    margin: theme.spacing(3, 0, 2),
+    margin: '1em',
   },
-}));
+};
 
-export default function SignUp() {
-  const classes = useStyles();
-
+class SignUp extends React.Component {
+  render() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      <div className={classes.paper}>
+      <div className={this.props.classes.paper}>
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={this.props.classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -92,7 +90,7 @@ export default function SignUp() {
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit}
+            className={this.props.classes.submit}
           >
             Sign Up
           </Button>
@@ -108,3 +106,6 @@ export default function SignUp() {
     </Container>
   );
 }
+}
+
+export default withStyles(classes)(SignUp);
