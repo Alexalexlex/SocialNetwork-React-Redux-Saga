@@ -11,6 +11,7 @@ import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { setPost } from '../actions/postAction'
 
 
 const classes = {
@@ -42,8 +43,44 @@ const classes = {
 };
 
 class Main extends React.Component {
+    constructor(props){
+        super(props)
 
+        this.state = {
+            title: '',
+            description: '',
+        }
+
+        this.handleTitle = this.handleTitle.bind(this);
+        this.handleDescription = this.handleDescription.bind(this);
+        this.onBtnClick = this.onBtnClick.bind(this);
+    }
+    
+    onBtnClick() {
+        this.props.setPostAction(this.state)
+    }
+
+    handleTitle(e) {
+        e.preventDefault()
+        this.setState({title: e.target.value})
+    }
+
+    handleDescription(e) {
+        e.preventDefault()
+        this.setState({description: e.target.value})
+    }
+    
     render() {
+        // const result = (filterTodos.length) ? (
+        //     filterTodos.map(todo => {
+        //         return(
+                    
+        //         )
+        //     })
+        // ) : (
+            
+        // )
+        const { title, description } = this.props
         return (
             <div className={this.props.classes.root}>
                 <MenuNav />
@@ -57,12 +94,14 @@ class Main extends React.Component {
                         alignContent="center"
                     >
                         <TextField
+                            onChange={this.handleTitle}
                             className={this.props.classes.input}
-                            label="Heading"
+                            label="Title"
                             autoComplete="current-password"
                             variant="outlined"
                         />
                         <TextField
+                            onChange={this.handleDescription}
                             className={this.props.classes.input}
                             id="outlined-textarea"
                             label="Description"
@@ -71,6 +110,7 @@ class Main extends React.Component {
                         />
                         <Grid item>
                             <Button
+                                onClick={this.onBtnClick}
                                 type="submit"
                                 variant="contained"
                                 color="primary"
@@ -90,9 +130,9 @@ class Main extends React.Component {
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    {this.props.headline}
+                                    {title}
                                 </Typography>
-                                <Typography>{this.props.description}</Typography>
+                                <Typography>{description}</Typography>
                             </Grid>
                         </Grid>
                         </Link>
@@ -107,11 +147,19 @@ Main.propTypes = {
     description: PropTypes.string.isRequired,
   }
 
-const mapStateToProps = store => {
+  const mapDispatchToProps = dispatch => {
     return {
-        headline: store.posts.headline,
-        description: store.posts.description,
+      setPostAction: post => dispatch(setPost(post))
     }
   }
 
-export default connect(mapStateToProps)(withStyles(classes)(Main))
+const mapStateToProps = store => {
+    console.log(store)
+    return {
+        title: store.posts.title,
+        description: store.posts.description,
+
+    }
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(classes)(Main))
