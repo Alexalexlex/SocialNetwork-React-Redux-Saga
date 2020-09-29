@@ -71,16 +71,43 @@ class Main extends React.Component {
     }
     
     render() {
-        // const result = (filterTodos.length) ? (
-        //     filterTodos.map(todo => {
-        //         return(
-                    
-        //         )
-        //     })
-        // ) : (
-            
-        // )
-        const { title, description } = this.props
+        const { title, description, posts } = this.props
+        const result = (posts.length) ? (
+            posts.map((post) => {
+                return(
+                    <Paper className={this.props.classes.paper}>
+                    <Link to="#" className={this.props.classes.link}>
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                                <Avatar>W</Avatar>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography variant="h5" gutterBottom>
+                                    {post.title}
+                                </Typography>
+                                <Typography>{post.description}</Typography>
+                            </Grid>
+                        </Grid>
+                        </Link>
+                    </Paper>
+                )
+            })
+        ) : (
+            <Paper className={this.props.classes.paper}>
+                    <Link to="#" className={this.props.classes.link}>
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography variant="h5" gutterBottom>
+                                    No Posts
+                                </Typography>
+                                <Typography></Typography>
+                            </Grid>
+                        </Grid>
+                        </Link>
+                    </Paper>
+        )
         return (
             <div className={this.props.classes.root}>
                 <MenuNav />
@@ -105,7 +132,6 @@ class Main extends React.Component {
                             className={this.props.classes.input}
                             id="outlined-textarea"
                             label="Description"
-                            multiline
                             variant="outlined"
                         />
                         <Grid item>
@@ -122,21 +148,7 @@ class Main extends React.Component {
                         </Grid>
                     </Grid>
                 </form>
-                    <Paper className={this.props.classes.paper}>
-                    <Link to="#" className={this.props.classes.link}>
-                        <Grid container wrap="nowrap" spacing={2}>
-                            <Grid item>
-                                <Avatar>W</Avatar>
-                            </Grid>
-                            <Grid item xs>
-                                <Typography variant="h5" gutterBottom>
-                                    {title}
-                                </Typography>
-                                <Typography>{description}</Typography>
-                            </Grid>
-                        </Grid>
-                        </Link>
-                    </Paper>
+                {result}
             </div>
         );
     }
@@ -156,6 +168,7 @@ Main.propTypes = {
 const mapStateToProps = store => {
     console.log(store)
     return {
+        posts: store.posts,
         title: store.posts.title,
         description: store.posts.description,
 
