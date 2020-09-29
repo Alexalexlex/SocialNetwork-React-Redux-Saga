@@ -9,6 +9,9 @@ import MenuNav from './MenuNav';
 import Link from '@material-ui/core/Link'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon';
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+
 
 const classes = {
     root: {
@@ -37,18 +40,6 @@ const classes = {
         margin: `10px auto`,
     },
 };
-
-
-
-const message = `Truncation should be conditionally applicable on this long line of text
- as this is a much longer line than what the container can support. Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-Omnis explicabo maxime atque perferendis optio, laboriosam culpa odio ad consequatur neque odit laudantium,
-corporis nobis, sit aut assumenda doloribus cumque beatae.Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-Omnis explicabo maxime atque perferendis optio, laboriosam culpa odio ad consequatur neque odit laudantium, corporis nobis,
-sit aut assumenda doloribus cumque beatae.Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis explicabo maxime atque perferendis optio, 
-laboriosam culpa odio ad consequatur neque odit laudantium, corporis nobis, sit aut assumenda doloribus cumque beatae.Lorem ipsum dolor sit, amet consectetur 
-adipisicing elit. Omnis explicabo maxime atque perferendis optio, laboriosam culpa odio ad consequatur neque odit laudantium, corporis nobis, 
-sit aut assumenda doloribus cumque beatae.`;
 
 class Main extends React.Component {
 
@@ -99,54 +90,9 @@ class Main extends React.Component {
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    {this.props.id}
+                                    {this.props.headline}
                                 </Typography>
-                                <Typography>{message}</Typography>
-                            </Grid>
-                        </Grid>
-                        </Link>
-                    </Paper>
-                    <Paper className={this.props.classes.paper}>
-                    <Link to="#" className={this.props.classes.link}>
-                        <Grid container wrap="nowrap" spacing={2}>
-                            <Grid item>
-                                <Avatar>W</Avatar>
-                            </Grid>
-                            <Grid item xs>
-                                <Typography variant="h5" gutterBottom>
-                                    {this.props.id}
-                                </Typography>
-                                <Typography>{message}</Typography>
-                            </Grid>
-                        </Grid>
-                        </Link>
-                    </Paper>
-                    <Paper className={this.props.classes.paper}>
-                    <Link to="#" className={this.props.classes.link}>
-                        <Grid container wrap="nowrap" spacing={2}>
-                            <Grid item>
-                                <Avatar>W</Avatar>
-                            </Grid>
-                            <Grid item xs>
-                                <Typography variant="h5" gutterBottom>
-                                    {this.props.id}
-                                </Typography>
-                                <Typography>{message}</Typography>
-                            </Grid>
-                        </Grid>
-                        </Link>
-                    </Paper>
-                    <Paper className={this.props.classes.paper}>
-                    <Link to="#" className={this.props.classes.link}>
-                        <Grid container wrap="nowrap" spacing={2}>
-                            <Grid item>
-                                <Avatar>W</Avatar>
-                            </Grid>
-                            <Grid item xs>
-                                <Typography variant="h5" gutterBottom>
-                                    {this.props.id}
-                                </Typography>
-                                <Typography>{message}</Typography>
+                                <Typography>{this.props.description}</Typography>
                             </Grid>
                         </Grid>
                         </Link>
@@ -156,4 +102,16 @@ class Main extends React.Component {
     }
 }
 
-export default withStyles(classes)(Main)
+Main.propTypes = {
+    headline: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+  }
+
+const mapStateToProps = store => {
+    return {
+        headline: store.posts.headline,
+        description: store.posts.description,
+    }
+  }
+
+export default connect(mapStateToProps)(withStyles(classes)(Main))
