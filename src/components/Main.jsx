@@ -130,7 +130,7 @@ class Main extends React.Component {
                         <TextField
                             onChange={this.handleDescription}
                             className={this.props.classes.input}
-                            id="outlined-textarea"
+                            autoComplete="current-password"
                             label="Description"
                             variant="outlined"
                         />
