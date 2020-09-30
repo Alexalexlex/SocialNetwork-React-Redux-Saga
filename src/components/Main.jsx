@@ -6,7 +6,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField'
 import MenuNav from './MenuNav';
-// import Link from '@material-ui/core/Link'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon';
 import { connect } from 'react-redux'
@@ -52,31 +51,31 @@ class Main extends React.Component {
             description: '',
         }
 
-        this.handleTitle = this.handleTitle.bind(this);
-        this.handleDescription = this.handleDescription.bind(this);
+        this.handleChange= this.handleChange.bind(this);
         this.onBtnClick = this.onBtnClick.bind(this);
     }
     
     onBtnClick() {
         this.props.setPostAction(this.state)
+        this.setState({
+            title: '',
+            description: '',
+        })
     }
 
-    handleTitle(e) {
-        e.preventDefault()
-        this.setState({title: e.target.value})
-    }
-
-    handleDescription(e) {
-        e.preventDefault()
-        this.setState({description: e.target.value})
-    }
+    handleChange(event) {
+        const name = event.target.name;
+        this.setState({
+          [name]: event.target.value
+        });
+      }
     
     render() {
         const { posts } = this.props
         const result = (posts.length) ? (
             posts.map((post) => {
                 return(
-                    <Paper className={this.props.classes.paper}>
+                    <Paper className={this.props.classes.paper} key={Math.round(Date.now()*Math.random())}>
                     <Link to="#" className={this.props.classes.link}>
                         <Grid container wrap="nowrap" spacing={2}>
                             <Grid item>
@@ -121,16 +120,18 @@ class Main extends React.Component {
                         alignContent="center"
                     >
                         <TextField
-                            onChange={this.handleTitle}
+                            value={this.state.title}
+                            name="title"
+                            onChange={this.handleChange}
                             className={this.props.classes.input}
                             label="Title"
-                            autoComplete="current-password"
                             variant="outlined"
                         />
                         <TextField
-                            onChange={this.handleDescription}
+                            value={this.state.description}
+                            name="description"
+                            onChange={this.handleChange}
                             className={this.props.classes.input}
-                            autoComplete="current-password"
                             label="Description"
                             variant="outlined"
                         />
@@ -154,8 +155,7 @@ class Main extends React.Component {
 }
 
 Main.propTypes = {
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
+    posts: PropTypes.array.isRequired,
   }
 
   const mapDispatchToProps = dispatch => {
@@ -165,7 +165,6 @@ Main.propTypes = {
   }
 
 const mapStateToProps = store => {
-    console.log(store)
     return {
         posts: store.posts,
 

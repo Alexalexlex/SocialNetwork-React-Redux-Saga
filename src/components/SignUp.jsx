@@ -42,18 +42,15 @@ class SignUp extends React.Component {
 
   handleInputChange(event) {
     const name = event.target.name;
-
     this.setState({
       [name]: event.target.value
     });
-    console.log(this.state)
   }
 
   handleClick(e) {
     e.preventDefault()
-    this.props.setAuthAction(this.state)
-    console.log(this.state)
-    console.log(this.props.user)
+      this.props.setAuthAction(this.state)
+      console.log(this.state)
   }
 
   render() {
