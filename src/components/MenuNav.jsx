@@ -7,6 +7,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -68,7 +69,9 @@ export default function MenuNav() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
+                <Link to="/signin">
                 <MenuItem onClick={handleClose}>LogOut</MenuItem>
+                </Link>
               </Menu>
             </div>
           )}
