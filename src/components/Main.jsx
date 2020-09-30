@@ -6,12 +6,13 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField'
 import MenuNav from './MenuNav';
-import Link from '@material-ui/core/Link'
+// import Link from '@material-ui/core/Link'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { setPost } from '../actions/postAction'
+import { Link } from 'react-router-dom'
 
 
 const classes = {

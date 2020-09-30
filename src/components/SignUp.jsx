@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
@@ -10,8 +10,7 @@ import Container from '@material-ui/core/Container';
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setUser } from '../actions/authAction'
-import { store } from '../store/configureStore';
-
+import { Link } from 'react-router-dom'
 const classes = {
   paper: {
     marginTop: '20%',
@@ -130,7 +129,7 @@ class SignUp extends React.Component {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link to="/signin" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>
