@@ -71,7 +71,7 @@ class Main extends React.Component {
     }
     
     render() {
-        const { title, description, posts } = this.props
+        const { posts } = this.props
         const result = (posts.length) ? (
             posts.map((post) => {
                 return(
@@ -111,7 +111,6 @@ class Main extends React.Component {
         return (
             <div className={this.props.classes.root}>
                 <MenuNav />
-                <form>
                     <Grid
                         container
                         className={this.props.classes.grid}
@@ -147,7 +146,6 @@ class Main extends React.Component {
                  </Button>
                         </Grid>
                     </Grid>
-                </form>
                 {result}
             </div>
         );
@@ -155,7 +153,7 @@ class Main extends React.Component {
 }
 
 Main.propTypes = {
-    headline: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
   }
 
@@ -169,8 +167,6 @@ const mapStateToProps = store => {
     console.log(store)
     return {
         posts: store.posts,
-        title: store.posts.title,
-        description: store.posts.description,
 
     }
   }

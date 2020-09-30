@@ -7,6 +7,10 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import PropTypes from 'prop-types'
+import { connect } from 'react-redux'
+import { setUser } from '../actions/authAction'
+import { store } from '../store/configureStore';
 
 const classes = {
   paper: {
@@ -28,6 +32,31 @@ const classes = {
 };
 
 class SignUp extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {};
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
+  }
+
+  handleInputChange(event) {
+    const name = event.target.name;
+
+    this.setState({
+      [name]: event.target.value
+    });
+    console.log(this.state)
+  }
+
+  handleClick(e) {
+    e.preventDefault()
+    this.props.setAuthAction(this.state)
+    console.log(this.state)
+    console.log(this.props.user)
+  }
+
   render() {
   return (
     <Container component="main" maxWidth="xs">
@@ -40,6 +69,7 @@ class SignUp extends React.Component {
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
+                onChange={this.handleInputChange}
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
@@ -52,6 +82,7 @@ class SignUp extends React.Component {
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
+               onChange={this.handleInputChange}
                 variant="outlined"
                 required
                 fullWidth
@@ -63,6 +94,7 @@ class SignUp extends React.Component {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={this.handleInputChange}
                 variant="outlined"
                 required
                 fullWidth
@@ -74,6 +106,7 @@ class SignUp extends React.Component {
             </Grid>
             <Grid item xs={12}>
               <TextField
+                onChange={this.handleInputChange}
                 variant="outlined"
                 required
                 fullWidth
@@ -86,6 +119,7 @@ class SignUp extends React.Component {
             </Grid>
           </Grid>
           <Button
+            onClick={this.handleClick}
             type="submit"
             fullWidth
             variant="contained"
@@ -108,4 +142,20 @@ class SignUp extends React.Component {
 }
 }
 
-export default withStyles(classes)(SignUp);
+SignUp.propTypes = {
+  user: PropTypes.array.isRequired,
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setAuthAction: user => dispatch(setUser(user))
+  }
+}
+
+const mapStateToProps = store => {
+  return {
+      user: store.user
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(classes)(SignUp))
