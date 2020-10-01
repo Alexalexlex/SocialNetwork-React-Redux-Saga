@@ -13,7 +13,6 @@ import PropTypes from 'prop-types'
 import { setPost } from '../actions/postAction'
 import { Link } from 'react-router-dom'
 
-
 const classes = {
     root: {
         flexGrow: 1,

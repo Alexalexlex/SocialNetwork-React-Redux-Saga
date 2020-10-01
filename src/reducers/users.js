@@ -11,7 +11,7 @@ const initialState = []
 export function userReducer(state = initialState, action) {
     switch (action.type) {
         case  SET_USER:
-          return [...state, {id: Math.round(Date.now()*Math.random()), name: action.payload.firstName, surname: action.payload.lastName, email: action.payload.email, }]
+          return [...state, {first_name: action.payload.firstName, last_name: action.payload.lastName, email: action.payload.email, password: action.payload.password }]
     
         default:
           return state
