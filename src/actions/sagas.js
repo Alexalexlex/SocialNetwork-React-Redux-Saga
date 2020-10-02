@@ -10,26 +10,27 @@ export function* sagaWatcher() {
 //Authorization (how change payload here and post it to store)
 
 async function fetchSignUp(payload) {
-        const requestOptions = {
+        let requestOptions = {
           method: 'POST',
           headers: payload,
           redirect: 'follow'
         };
         
-          const result = await fetch("https://postify-api.herokuapp.com/auth", requestOptions)
+          let result = await fetch("https://postify-api.herokuapp.com/auth", requestOptions)
           console.log(await result.headers.get('access-token'))
 }
 
 async function fetchSignIn(payload) {    
-        const headers = {email: payload.email, password: payload.password}
+        let headers = {email: payload.email, password: payload.password}
         
-        const requestOptions = {
+        let requestOptions = {
           method: 'POST',
           headers: headers,
           redirect: 'follow'
         };
     
-        const result = fetch("https://postify-api.herokuapp.com/auth/sign_in", requestOptions)
-        const params = await result.text()
-        console.log(params)
+        fetch("https://postify-api.herokuapp.com/auth/sign_in", requestOptions)
+          .then(response => response.text())
+          .then(result => console.log(result))
+          .catch(error => console.log('error', error));
 }
