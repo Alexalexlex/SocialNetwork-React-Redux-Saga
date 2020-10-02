@@ -49,37 +49,6 @@ class SignUp extends React.Component {
   handleClick(e) {
     e.preventDefault()
       this.props.setAuthAction(this.state)
-      this.signUp()
-      this.signIn()
-  }
-
-  signUp() {
-    let requestOptions = {
-      method: 'POST',
-      headers: this.state,
-      redirect: 'follow'
-    };
-    
-    fetch("https://postify-api.herokuapp.com/auth", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
-  }
-
-  signIn() {
-    
-    let headers = {email: this.state.email, password: this.state.password}
-    
-    let requestOptions = {
-      method: 'POST',
-      headers: headers,
-      redirect: 'follow'
-    };
-
-    fetch("https://postify-api.herokuapp.com/auth/sign_in", requestOptions)
-      .then(response => response.text())
-      .then(result => console.log(result))
-      .catch(error => console.log('error', error));
   }
 
   render() {
