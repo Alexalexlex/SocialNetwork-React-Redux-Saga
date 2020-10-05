@@ -10,6 +10,7 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { setUser } from '../actions/authAction'
 import { Link } from 'react-router-dom'
+
 const classes = {
   paper: {
     marginTop: '20%',
@@ -36,7 +37,7 @@ class SignUp extends React.Component {
     this.state = {};
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
+    // this.handleClick = this.handleClick.bind(this);
   }
 
   handleInputChange(event) {
@@ -46,10 +47,10 @@ class SignUp extends React.Component {
     });
   }
 
-  handleClick(e) {
-    e.preventDefault()
-      this.props.setAuthAction(this.state)
-  }
+  // handleClick(e) {
+  //   e.preventDefault()
+  //     this.props.setAuthAction(this.state)
+  // }
 
   render() {
   return (
@@ -112,6 +113,7 @@ class SignUp extends React.Component {
               />
             </Grid>
           </Grid>
+          <Link to="/main">
           <Button
             onClick={this.handleClick}
             type="submit"
@@ -122,6 +124,7 @@ class SignUp extends React.Component {
           >
             Sign Up
           </Button>
+          </Link>
           <Grid container justify="flex-end">
             <Grid item>
               <Link to="/signin" variant="body2">

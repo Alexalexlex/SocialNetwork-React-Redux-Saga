@@ -18,6 +18,13 @@ async function fetchSignUp(payload) {
         
           let result = await fetch("https://postify-api.herokuapp.com/auth", requestOptions)
           console.log(await result.headers.get('access-token'))
+
+          localStorage.setItem('access-token', result.headers.get('access-token'));
+          localStorage.setItem('client', result.headers.get('client'));
+          localStorage.setItem('uid', result.headers.get('uid'));
+          localStorage.setItem('email', payload.email);
+          localStorage.setItem('password', payload.password);
+
 }
 
 async function fetchSignIn(payload) {    
