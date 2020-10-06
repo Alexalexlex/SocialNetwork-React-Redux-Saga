@@ -10,6 +10,8 @@ import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { Link } from 'react-router-dom'
+import { setData } from '../actions/signInAction';
+import { connect } from 'react-redux'
 
 const classes = {
   paper: {
@@ -31,6 +33,30 @@ const classes = {
 };
 
 class SignIn extends React.Component {
+  constructor(props){
+    super(props)
+
+    this.state = {
+      email: '',
+      password: '',
+    }
+
+    this.handleChange = this.handleChange.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+  }
+
+  handleChange(event) {
+    const name = event.target.name;
+    this.setState({
+      [name]: event.target.value
+    });
+  }
+
+  handleClick(event) {
+    event.preventDefault()
+    this.props.setSignInAction(this.state)
+  }
+
 render() {
   return (
     <Container component="main" maxWidth="xs">
@@ -41,6 +67,7 @@ render() {
         </Typography>
         <form className={this.props.classes.form} noValidate>
           <TextField
+            onChange={this.handleChange}
             variant="outlined"
             margin="normal"
             required
@@ -52,6 +79,7 @@ render() {
             autoFocus
           />
           <TextField
+            onChange={this.handleChange}
             variant="outlined"
             margin="normal"
             required
@@ -66,8 +94,8 @@ render() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <Link to="/main">
           <Button
+            onClick={this.handleClick}
             type="submit"
             fullWidth
             variant="contained"
@@ -76,7 +104,6 @@ render() {
           >
             Sign In
           </Button>
-          </Link>
           <Grid container>
             <Grid item xs>
             </Grid>
@@ -93,4 +120,16 @@ render() {
 }
 }
 
-export default withStyles(classes)(SignIn)
+const mapDispatchToProps = dispatch => {
+  return {
+    setSignInAction: data => dispatch(setData(data))
+  }
+}
+
+const mapStateToProps = store => {
+  return {
+      data: store.user
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(withStyles(classes)(SignIn))
