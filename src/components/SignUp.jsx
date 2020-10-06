@@ -34,7 +34,12 @@ class SignUp extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+    };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
@@ -49,8 +54,18 @@ class SignUp extends React.Component {
 
   handleClick(e) {
     e.preventDefault()
-      this.props.setAuthAction(this.state)
-  }
+    let check = 0
+    for (let key in this.state) {
+      if (Boolean(this.state[key])!==true) {
+         console.log('Vvedi blat', key)
+        } else {
+          check+=1
+          }
+         }
+         if (check === 4) {
+          this.props.setAuthAction(this.state)
+         }
+    }
 
   render() {
   return (
