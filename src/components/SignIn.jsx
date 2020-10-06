@@ -53,8 +53,11 @@ class SignIn extends React.Component {
   }
 
   handleClick(event) {
-    event.preventDefault()
-    this.props.setSignInAction(this.state)
+    if (Boolean(this.state.email && this.state.password)) { 
+      event.preventDefault()
+      this.props.setSignInAction(this.state) 
+    } else {
+      alert ('Input email and password')}
   }
 
 render() {

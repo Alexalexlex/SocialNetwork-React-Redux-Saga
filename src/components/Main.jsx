@@ -55,7 +55,7 @@ class Main extends React.Component {
     }
     
     onBtnClick() {
-        this.props.setPostAction(this.state)
+        (Boolean(this.state.title && this.state.description)) ? this.props.setPostAction(this.state): alert('Введи сраный заголовок и описание')
         this.setState({
             title: '',
             description: '',
@@ -99,7 +99,7 @@ class Main extends React.Component {
             posts.map((post) => {
                 return(
                     <Paper className={this.props.classes.paper} key={Math.round(Date.now()*Math.random())}>
-                    <Link to="#" className={this.props.classes.link}>
+                    <Link to={`/posts/${post.id}`} className={this.props.classes.link}>
                         <Grid container wrap="nowrap" spacing={2}>
                             <Grid item>
                                 <Avatar>W</Avatar>

@@ -24,10 +24,10 @@ constructor(props){
     return ( 
       <Router>
         <Switch>
+        <Route exact path="/" component={Main} />
         <Route exact path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
-        <Route path="/main" component={Main} />
-        <Route path="/comments" component={Comments} />
+        <Route path="/posts/:id" component={Comments} />
       </Switch>
       </Router>
     );

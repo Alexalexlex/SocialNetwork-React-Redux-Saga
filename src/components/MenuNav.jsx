@@ -43,7 +43,7 @@ export default function MenuNav() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            <span onClick={() => window.location.href = '/main'} className={classes.span}>News</span>
+            <span onClick={() => window.location.href = '/'} className={classes.span}>News</span>
           </Typography>
           {auth && (
             <div>

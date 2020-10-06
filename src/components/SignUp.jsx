@@ -75,7 +75,7 @@ class SignUp extends React.Component {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={this.props.classes.form} noValidate>
+        <form  className={this.props.classes.form} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField

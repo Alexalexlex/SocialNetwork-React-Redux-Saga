@@ -83,7 +83,7 @@ class Comments extends React.Component {
             redirect: 'follow'
           };
           
-          fetch("https://postify-api.herokuapp.com/comments", requestOptions)
+          fetch("https://postify-api.herokuapp.com/comments/:id", requestOptions)
             .then(response => response.text())
             .then(result => {
                 JSON.parse(result).slice(0,10).forEach(element => {

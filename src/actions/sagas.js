@@ -1,4 +1,4 @@
-import { take } from 'redux-saga/effects'
+import { take,put,takeEvery } from 'redux-saga/effects'
 import { SET_USER } from './authAction'
 import { SUCCESS_AUTH } from './signInAction'
 
@@ -22,25 +22,28 @@ async function fetchSignUp(payload) {
 }
 
 export function* sagaWatcherSign() {
-  const payload = yield take(SUCCESS_AUTH)
-  yield fetchSignIn(payload)
+  
+   yield takeEvery(SUCCESS_AUTH, fetchSignIn)
+
+ 
 } 
 
-async function fetchSignIn(payload) {   
-console.log(payload.payload)
+async function fetchSignIn(payload) {
         
         let requestOptions = {
           method: 'POST',
           headers: payload.payload,
           redirect: 'follow'
         };
-    
-        let result = await fetch("https://postify-api.herokuapp.com/auth/sign_in", requestOptions)
-
-
+    try {
+      let result = await fetch("https://postify-api.herokuapp.com/auth/sign_in", requestOptions)
           localStorage.setItem('access-token', result.headers.get('access-token'));
           localStorage.setItem('client', result.headers.get('client'));
           localStorage.setItem('uid', result.headers.get('uid'));
 
-          window.location.href = '/main'
+          window.location.href = '/'
+    } catch (error) {
+        console.log('!!!!! ', error)
+    }
+        
 }
