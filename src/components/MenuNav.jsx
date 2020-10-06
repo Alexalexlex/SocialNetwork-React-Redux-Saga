@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
+  span: {
+    cursor: 'pointer',
+  },
 }));
 
 export default function MenuNav() {
@@ -40,7 +43,7 @@ export default function MenuNav() {
       <AppBar position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title}>
-            News
+            <span onClick={() => window.location.href = '/main'} className={classes.span}>News</span>
           </Typography>
           {auth && (
             <div>

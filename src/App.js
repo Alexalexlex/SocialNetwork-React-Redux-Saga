@@ -3,9 +3,23 @@ import './App.css';
 import SignIn from './components/SignIn'
 import SignUp from './components/SignUp';
 import Main from './components/Main'
+import Comments from './components/Comments'
 import { BrowserRouter as Router ,Route, Switch } from 'react-router-dom';
 
 class App extends React.Component {
+constructor(props){
+  super(props)
+
+  this.state= this.isUserLoggined()
+}
+    isUserLoggined = () => {
+    return Boolean(
+      localStorage.getItem('access-token') &&
+      localStorage.getItem('uid') &&
+      localStorage.getItem('client')
+    );
+
+  }
   render() {
     return ( 
       <Router>
@@ -13,6 +27,7 @@ class App extends React.Component {
         <Route exact path="/signin" component={SignIn} />
         <Route path="/signup" component={SignUp} />
         <Route path="/main" component={Main} />
+        <Route path="/comments" component={Comments} />
       </Switch>
       </Router>
     );

@@ -6,11 +6,9 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField'
 import MenuNav from './MenuNav';
-import Button from '@material-ui/core/Button'
-import Icon from '@material-ui/core/Icon';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setPost } from '../actions/postAction'
+import { setComment } from '../actions/commentsAction'
 import { Link } from 'react-router-dom'
 
 const classes = {
@@ -39,26 +37,30 @@ const classes = {
     grid: {
         margin: `10px auto`,
     },
+    form: {
+        width: '100%',
+        marginLeft: '20%',
+    }
 };
 
-class Main extends React.Component {
+class Comments extends React.Component {
     constructor(props){
         super(props)
 
         this.state = {
-            title: '',
-            description: '',
+            message: '',
         }
 
         this.handleChange= this.handleChange.bind(this);
         this.onBtnClick = this.onBtnClick.bind(this);
     }
     
-    onBtnClick() {
-        this.props.setPostAction(this.state)
+    onBtnClick(e) {
+        e.preventDefault()
+        this.props.setCommentAction(this.state)
+        console.log('azaza')
         this.setState({
-            title: '',
-            description: '',
+            message: '',
         })
     }
 
@@ -81,11 +83,11 @@ class Main extends React.Component {
             redirect: 'follow'
           };
           
-          fetch("https://postify-api.herokuapp.com/posts", requestOptions)
+          fetch("https://postify-api.herokuapp.com/comments", requestOptions)
             .then(response => response.text())
             .then(result => {
                 JSON.parse(result).slice(0,10).forEach(element => {
-                    this.props.setPostAction(element)
+                    this.props.setCommentAction(element)
                 })
             })
             .catch(error => console.log('error', error));
@@ -94,9 +96,10 @@ class Main extends React.Component {
     }
     
     render() {
-        const { posts } = this.props
-        const result = (posts.length) ? (
-            posts.map((post) => {
+
+        const { comments } = this.props
+        const result = (comments.length) ? (
+            comments.map((comment) => {
                 return(
                     <Paper className={this.props.classes.paper} key={Math.round(Date.now()*Math.random())}>
                     <Link to="#" className={this.props.classes.link}>
@@ -106,9 +109,9 @@ class Main extends React.Component {
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    {post.title}
+                                    {comment.message}
                                 </Typography>
-                                <Typography>{post.description}</Typography>
+                                <Typography></Typography>
                             </Grid>
                         </Grid>
                         </Link>
@@ -123,7 +126,7 @@ class Main extends React.Component {
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    No Posts
+                                    No Comments
                                 </Typography>
                                 <Typography></Typography>
                             </Grid>
@@ -131,9 +134,24 @@ class Main extends React.Component {
                         </Link>
                     </Paper>
         )
+        
         return (
             <div className={this.props.classes.root}>
                 <MenuNav />
+                    <Paper className={this.props.classes.paper}>
+                        <Grid container wrap="nowrap" spacing={2}>
+                            <Grid item>
+                            </Grid>
+                            <Grid item xs>
+                                <Typography variant="h5" gutterBottom>
+                                    Header
+                                </Typography>
+                                <Typography>
+                                    aazazazaz
+                                </Typography>
+                            </Grid>
+                        </Grid>
+                    </Paper>
                     <Grid
                         container
                         className={this.props.classes.grid}
@@ -142,56 +160,38 @@ class Main extends React.Component {
                         alignItems="flex-end"
                         alignContent="center"
                     >
-                        <TextField
-                            value={this.state.title}
-                            name="title"
+                    <form className={this.props.classes.form} onSubmit={this.onBtnClick}>
+                    <TextField
+                            value={this.state.message}
+                            name="message"
                             onChange={this.handleChange}
                             className={this.props.classes.input}
-                            label="Title"
+                            label="Comment"
                             variant="outlined"
                         />
-                        <TextField
-                            value={this.state.description}
-                            name="description"
-                            onChange={this.handleChange}
-                            className={this.props.classes.input}
-                            label="Description"
-                            variant="outlined"
-                        />
-                        <Grid item>
-                            <Button
-                                onClick={this.onBtnClick}
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                className={this.props.classes.button}
-                                endIcon={<Icon>send</Icon>}
-                            >
-                                Send
-                 </Button>
+                    </form>
                         </Grid>
-                    </Grid>
-                {result}
+                        {result}
             </div>
         );
     }
 }
 
-Main.propTypes = {
+Comments.propTypes = {
     posts: PropTypes.array.isRequired,
   }
 
   const mapDispatchToProps = dispatch => {
     return {
-      setPostAction: post => dispatch(setPost(post))
+      setCommentAction: post => dispatch(setComment(post))
     }
   }
 
 const mapStateToProps = store => {
     return {
-        posts: store.posts,
+        comments: store.comments,
 
     }
   }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(classes)(Main))
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(classes)(Comments))
