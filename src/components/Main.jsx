@@ -68,6 +68,30 @@ class Main extends React.Component {
           [name]: event.target.value
         });
       }
+
+    componentDidMount() {
+        let headers = {
+            'client': localStorage.getItem('client'),
+            'uid': localStorage.getItem('uid'),
+            'access-token': localStorage.getItem('access-token')
+        }
+        let requestOptions = {
+            method: 'GET',
+            headers: headers,
+            redirect: 'follow'
+          };
+          
+          fetch("https://postify-api.herokuapp.com/posts", requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                JSON.parse(result).slice(0,10).forEach(element => {
+                    this.props.setPostAction(element)
+                });
+            })
+            .catch(error => console.log('error', error));
+
+
+    }
     
     render() {
         const { posts } = this.props
