@@ -22,9 +22,6 @@ async function fetchSignUp(payload) {
           localStorage.setItem('access-token', result.headers.get('access-token'));
           localStorage.setItem('client', result.headers.get('client'));
           localStorage.setItem('uid', result.headers.get('uid'));
-          localStorage.setItem('email', payload.email);
-          localStorage.setItem('password', payload.password);
-
 }
 
 async function fetchSignIn(payload) {    
@@ -40,4 +37,6 @@ async function fetchSignIn(payload) {
           .then(response => response.text())
           .then(result => console.log(result))
           .catch(error => console.log('error', error));
+
+          window.location.href = '/main'
 }

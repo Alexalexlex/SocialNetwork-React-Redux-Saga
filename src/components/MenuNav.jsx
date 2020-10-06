@@ -69,7 +69,7 @@ export default function MenuNav() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <Link to="/signin">
+                <Link to="/signin" onClick={() => localStorage.clear()}>
                 <MenuItem onClick={handleClose}>LogOut</MenuItem>
                 </Link>
               </Menu>

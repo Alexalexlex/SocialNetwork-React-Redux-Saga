@@ -37,7 +37,7 @@ class SignUp extends React.Component {
     this.state = {};
 
     this.handleInputChange = this.handleInputChange.bind(this);
-    // this.handleClick = this.handleClick.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   handleInputChange(event) {
@@ -47,10 +47,10 @@ class SignUp extends React.Component {
     });
   }
 
-  // handleClick(e) {
-  //   e.preventDefault()
-  //     this.props.setAuthAction(this.state)
-  // }
+  handleClick(e) {
+    e.preventDefault()
+      this.props.setAuthAction(this.state)
+  }
 
   render() {
   return (
