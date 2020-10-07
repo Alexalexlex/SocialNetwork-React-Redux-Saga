@@ -49,6 +49,8 @@ class Comments extends React.Component {
 
         this.state = {
             message: '',
+            title: '',
+            description: '',
         }
 
         this.handleChange= this.handleChange.bind(this);
@@ -71,7 +73,12 @@ class Comments extends React.Component {
         });
       }
 
-    componentDidMount() {
+      componentDidMount() {
+
+        //comments
+
+        const id = window.location.pathname.substr(7)
+
         let headers = {
             'client': localStorage.getItem('client'),
             'uid': localStorage.getItem('uid'),
@@ -83,21 +90,35 @@ class Comments extends React.Component {
             redirect: 'follow'
           };
           
-          fetch("https://postify-api.herokuapp.com/comments/:id", requestOptions)
+          fetch(`https://postify-api.herokuapp.com/comments/${id}`, requestOptions)
             .then(response => response.text())
             .then(result => {
+                if (typeof(result === Object)) {
+                    this.props.setCommentAction(JSON.parse(result))
+                } else {
                 JSON.parse(result).slice(0,10).forEach(element => {
                     this.props.setCommentAction(element)
                 })
+            }
             })
             .catch(error => console.log('error', error));
 
+            // Post
 
+            fetch(`https://postify-api.herokuapp.com/posts/${id}`, requestOptions)
+            .then(response => response.text())
+            .then(result => {
+                this.setState({
+                    title: JSON.parse(result).title,
+                    description: JSON.parse(result).description
+                })
+            })
+            .catch(error => console.log('error', error));
     }
     
     render() {
-
-        const { comments } = this.props
+        const { comments, posts } = this.props
+        console.log(posts)
         const result = (comments.length) ? (
             comments.map((comment) => {
                 return(
@@ -144,10 +165,10 @@ class Comments extends React.Component {
                             </Grid>
                             <Grid item xs>
                                 <Typography variant="h5" gutterBottom>
-                                    Header
+                                {this.state.title}
                                 </Typography>
                                 <Typography>
-                                    aazazazaz
+                                {this.state.description}
                                 </Typography>
                             </Grid>
                         </Grid>
@@ -178,19 +199,18 @@ class Comments extends React.Component {
 }
 
 Comments.propTypes = {
-    posts: PropTypes.array.isRequired,
+    comments: PropTypes.array.isRequired,
   }
 
   const mapDispatchToProps = dispatch => {
     return {
-      setCommentAction: post => dispatch(setComment(post))
+      setCommentAction: comment => dispatch(setComment(comment)),
     }
   }
 
 const mapStateToProps = store => {
     return {
         comments: store.comments,
-
     }
   }
 

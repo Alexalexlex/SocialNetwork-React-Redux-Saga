@@ -1,4 +1,4 @@
-import { take,put,takeEvery } from 'redux-saga/effects'
+import { take,takeEvery } from 'redux-saga/effects'
 import { SET_USER } from './authAction'
 import { SUCCESS_AUTH } from './signInAction'
 
@@ -22,10 +22,7 @@ async function fetchSignUp(payload) {
 }
 
 export function* sagaWatcherSign() {
-  
    yield takeEvery(SUCCESS_AUTH, fetchSignIn)
-
- 
 } 
 
 async function fetchSignIn(payload) {

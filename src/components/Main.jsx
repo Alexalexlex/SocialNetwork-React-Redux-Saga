@@ -55,6 +55,7 @@ class Main extends React.Component {
     }
     
     onBtnClick() {
+
         (Boolean(this.state.title && this.state.description)) ? this.props.setPostAction(this.state): alert('Введи сраный заголовок и описание')
         this.setState({
             title: '',
