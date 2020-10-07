@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setPost } from '../actions/postAction'
+import { setPost, setMyPost } from '../actions/postAction'
 import { Link } from 'react-router-dom'
 
 const classes = {
@@ -56,7 +56,7 @@ class Main extends React.Component {
     
     onBtnClick() {
 
-        (Boolean(this.state.title && this.state.description)) ? this.props.setPostAction(this.state): alert('Введи сраный заголовок и описание')
+        (Boolean(this.state.title && this.state.description)) ? this.props.setMyPostAction(this.state): alert('Введи сраный заголовок и описание')
         this.setState({
             title: '',
             description: '',
@@ -184,7 +184,8 @@ Main.propTypes = {
 
   const mapDispatchToProps = dispatch => {
     return {
-      setPostAction: post => dispatch(setPost(post))
+      setPostAction: post => dispatch(setPost(post)),
+      setMyPostAction: post => dispatch(setMyPost(post)),
     }
   }
 

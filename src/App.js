@@ -10,7 +10,7 @@ class App extends React.Component {
 constructor(props){
   super(props)
 
-  this.state= this.isUserLoggined()
+  // this.state= this.isUserLoggined()
 }
     isUserLoggined = () => {
     return Boolean(

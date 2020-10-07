@@ -9,6 +9,7 @@ import MenuNav from './MenuNav';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { setComment } from '../actions/commentsAction'
+import { setMyComment } from '../actions/commentsAction'
 import { Link } from 'react-router-dom'
 
 const classes = {
@@ -59,8 +60,7 @@ class Comments extends React.Component {
     
     onBtnClick(e) {
         e.preventDefault()
-        this.props.setCommentAction(this.state)
-        console.log('azaza')
+        this.props.setMyCommentAction(this.state)
         this.setState({
             message: '',
         })
@@ -117,8 +117,7 @@ class Comments extends React.Component {
     }
     
     render() {
-        const { comments, posts } = this.props
-        console.log(posts)
+        const { comments } = this.props
         const result = (comments.length) ? (
             comments.map((comment) => {
                 return(
@@ -205,6 +204,7 @@ Comments.propTypes = {
   const mapDispatchToProps = dispatch => {
     return {
       setCommentAction: comment => dispatch(setComment(comment)),
+      setMyCommentAction: comment => dispatch(setMyComment(comment)),
     }
   }
 
