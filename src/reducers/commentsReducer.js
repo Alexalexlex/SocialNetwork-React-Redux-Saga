@@ -6,7 +6,7 @@ const initialState = []
 export function commentsReducer(state = initialState, action) {
     switch (action.type) {
         case  SET_COMMENT:
-          return [...state, {id: action.payload.id, user_id: action.payload.user_id, message: action.payload.message,} ]
+          return [...state, ...action.payload ]
         case SET_MY_COMMENT:
           return [...state, {id: action.payload.id, user_id: action.payload.user_id, message: action.payload.message,} ]
 

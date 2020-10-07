@@ -52,6 +52,7 @@ class Comments extends React.Component {
             message: '',
             title: '',
             description: '',
+            postId: window.location.pathname.substr(7),
         }
 
         this.handleChange= this.handleChange.bind(this);
@@ -77,8 +78,6 @@ class Comments extends React.Component {
 
         //comments
 
-        const id = window.location.pathname.substr(7)
-
         let headers = {
             'client': localStorage.getItem('client'),
             'uid': localStorage.getItem('uid'),
@@ -90,7 +89,7 @@ class Comments extends React.Component {
             redirect: 'follow'
           };
           
-          fetch(`https://postify-api.herokuapp.com/comments/${id}`, requestOptions)
+          fetch(`https://postify-api.herokuapp.com/posts/${this.state.postId}/comments`, requestOptions)
             .then(response => response.text())
             .then(result => {
                 if (typeof(result === Object)) {
@@ -105,7 +104,7 @@ class Comments extends React.Component {
 
             // Post
 
-            fetch(`https://postify-api.herokuapp.com/posts/${id}`, requestOptions)
+            fetch(`https://postify-api.herokuapp.com/posts/${this.state.postId}`, requestOptions)
             .then(response => response.text())
             .then(result => {
                 this.setState({

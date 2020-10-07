@@ -1,13 +1,11 @@
-import { take,takeEvery } from 'redux-saga/effects'
+import { takeEvery } from 'redux-saga/effects'
 import { SET_USER } from './authAction'
 import { SUCCESS_AUTH } from './signInAction'
 import { SET_MY_COMMENT } from './commentsAction'
 import { SET_MY_POST } from './postAction'
 
 export function* sagaWatcher() {
-    const payload = yield take(SET_USER)
-    yield fetchSignUp(payload.payload)
-    yield fetchSignIn(payload.payload)
+    yield takeEvery(SET_USER, fetchSignUp)
 }
 
 //Authorization (how change payload here and post it to store)
@@ -15,7 +13,7 @@ export function* sagaWatcher() {
 async function fetchSignUp(payload) {
         let requestOptions = {
           method: 'POST',
-          headers: payload,
+          headers: payload.payload,
           redirect: 'follow'
         };
         
@@ -52,7 +50,7 @@ export function* sagaWatcherComment() {
 }
 
 async function fetchComment(payload) {
-  console.log(payload.payload.message)
+
   const headers = {
     'access_token' : localStorage.getItem('access-token'),
     'client' : localStorage.getItem('client'),
@@ -66,8 +64,8 @@ headers: headers,
 redirect: 'follow',
 body: JSON.stringify({
   "message": payload.payload.message,
-	"commentable_id": 477,
-  "commentable_type": "Comment"
+	"commentable_id": payload.payload.postId,
+  "commentable_type": "Post"
 }),
 };
 
