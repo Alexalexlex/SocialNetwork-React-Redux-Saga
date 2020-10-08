@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setPost, setMyPost } from '../actions/postAction'
+import { setPost, setMyPost, getPosts } from '../actions/postAction'
 import { Link } from 'react-router-dom'
 
 const classes = {
@@ -56,8 +56,15 @@ class Main extends React.Component {
     }
     
     onBtnClick() {
-
-        (Boolean(this.state.title && this.state.description)) ? this.props.setMyPostAction(this.state): alert('Введи сраный заголовок и описание')
+        if(Boolean(this.state.title && this.state.description)) {
+            const createPost= async () => {
+                await this.props.setMyPostAction(this.state)
+                await this.props.getPosts()
+            }
+            createPost()
+        } else {
+            alert('Введи сраный заголовок и описание')
+        }
         this.setState({
             title: '',
             description: '',
@@ -72,33 +79,14 @@ class Main extends React.Component {
       }
 
     componentDidMount() {
-        let headers = {
-            'client': localStorage.getItem('client'),
-            'uid': localStorage.getItem('uid'),
-            'access-token': localStorage.getItem('access-token')
-        }
-        let requestOptions = {
-            method: 'GET',
-            headers: headers,
-            redirect: 'follow'
-          };
-          
-          fetch("https://postify-api.herokuapp.com/posts", requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                JSON.parse(result).slice(0,10).forEach(element => {
-                    this.setState({
-                        posts: [...this.state.posts,element]
-                    })
-                })
-            })
-            .catch(error => console.log('error', error));
+        this.props.getPosts()
         }
     
     render() {
         const { posts } = this.props
-        const result = ([...this.state.posts, ...posts].length) ? (
-            [...this.state.posts, ...posts].map((post) => {
+        const cutPosts = posts.slice(0,10)
+        const result = ((cutPosts||[]).length) ? (
+            cutPosts.map((post) => {
                 return(
                     <Paper className={this.props.classes.paper} key={Math.round(Date.now()*Math.random())}>
                     <Link to={`/posts/${post.id}`} className={this.props.classes.link}>
@@ -187,6 +175,7 @@ Main.propTypes = {
     return {
       setPostAction: post => dispatch(setPost(post)),
       setMyPostAction: post => dispatch(setMyPost(post)),
+      getPosts: () => dispatch(getPosts()),
     }
   }
 

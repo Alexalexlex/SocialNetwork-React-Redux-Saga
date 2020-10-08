@@ -1,8 +1,8 @@
-import { takeEvery, put } from 'redux-saga/effects'
+import { takeEvery, put, takeLatest } from 'redux-saga/effects'
 import { SET_USER } from './authAction'
 import { SUCCESS_AUTH } from './signInAction'
 import { SET_MY_COMMENT } from './commentsAction'
-import { SET_MY_POST } from './postAction'
+import { SET_MY_POST, GET_POSTS } from './postAction'
 
 export function* sagaWatcher() {
     yield takeEvery(SET_USER, fetchSignUp)
@@ -97,9 +97,31 @@ async function fetchPost(payload) {
   fetch("https://postify-api.herokuapp.com/posts", requestOptions)
   .then(response => response.text())
   .then(result => {
-    console.log((JSON.parse(result)).id)
+    console.log(result)
   })
   .catch(error => console.log('error', error));
+}
+
+export function* getPostsWatcher() {
+     yield takeEvery(GET_POSTS, fetchAllPosts)
+}
+
+function* fetchAllPosts() {
+  let headers = {
+    'client': localStorage.getItem('client'),
+    'uid': localStorage.getItem('uid'),
+    'access-token': localStorage.getItem('access-token')
+  } 
+  let requestOptions = {
+    method: 'GET',
+    headers: headers,
+    redirect: 'follow'
+  };
+
+  const json = yield fetch("https://postify-api.herokuapp.com/posts", requestOptions)
+  .then(response => response.json(), );
+
+  yield put({ type: "GET_POSTS_SUCCESS", json: json, });
 }
 
 // await fetch("https://postify-api.herokuapp.com/auth/sign_in", requestOptions)
