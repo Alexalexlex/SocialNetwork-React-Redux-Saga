@@ -45,7 +45,7 @@ const classes = {
 };
 
 class Comments extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props)
 
         this.state = {
@@ -53,12 +53,13 @@ class Comments extends React.Component {
             title: '',
             description: '',
             postId: window.location.pathname.substr(7),
+            comments: [],
         }
 
-        this.handleChange= this.handleChange.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.onBtnClick = this.onBtnClick.bind(this);
     }
-    
+
     onBtnClick(e) {
         e.preventDefault()
         this.props.setMyCommentAction(this.state)
@@ -70,12 +71,11 @@ class Comments extends React.Component {
     handleChange(event) {
         const name = event.target.name;
         this.setState({
-          [name]: event.target.value
+            [name]: event.target.value
         });
-      }
+    }
 
-      componentDidMount() {
-
+    componentDidMount() {
         //comments
 
         let headers = {
@@ -87,24 +87,22 @@ class Comments extends React.Component {
             method: 'GET',
             headers: headers,
             redirect: 'follow'
-          };
-          
-          fetch(`https://postify-api.herokuapp.com/posts/${this.state.postId}/comments`, requestOptions)
+        };
+
+        fetch(`https://postify-api.herokuapp.com/posts/${this.state.postId}/comments`, requestOptions)
             .then(response => response.text())
             .then(result => {
-                if (typeof(result === Object)) {
-                    this.props.setCommentAction(JSON.parse(result))
-                } else {
-                JSON.parse(result).slice(0,10).forEach(element => {
-                    this.props.setCommentAction(element)
+                JSON.parse(result).slice(0, 10).forEach(element => {
+                    this.setState({
+                        comments: [...this.state.comments, element]
+                    })
                 })
-            }
             })
             .catch(error => console.log('error', error));
 
-            // Post
+        // Post
 
-            fetch(`https://postify-api.herokuapp.com/posts/${this.state.postId}`, requestOptions)
+        fetch(`https://postify-api.herokuapp.com/posts/${this.state.postId}`, requestOptions)
             .then(response => response.text())
             .then(result => {
                 this.setState({
@@ -114,31 +112,31 @@ class Comments extends React.Component {
             })
             .catch(error => console.log('error', error));
     }
-    
+
     render() {
         const { comments } = this.props
-        const result = (comments.length) ? (
-            comments.map((comment) => {
-                return(
-                    <Paper className={this.props.classes.paper} key={Math.round(Date.now()*Math.random())}>
-                    <Link to="#" className={this.props.classes.link}>
-                        <Grid container wrap="nowrap" spacing={2}>
-                            <Grid item>
-                                <Avatar>W</Avatar>
+        const result = ([...this.state.comments, ...comments].length) ? (
+            [...this.state.comments, ...comments].map((comment) => {
+                return (
+                    <Paper className={this.props.classes.paper} key={Math.round(Date.now() * Math.random())}>
+                        <Link to="#" className={this.props.classes.link}>
+                            <Grid container wrap="nowrap" spacing={2}>
+                                <Grid item>
+                                    <Avatar>W</Avatar>
+                                </Grid>
+                                <Grid item xs>
+                                    <Typography variant="h5" gutterBottom>
+                                        {comment.message}
+                                    </Typography>
+                                    <Typography></Typography>
+                                </Grid>
                             </Grid>
-                            <Grid item xs>
-                                <Typography variant="h5" gutterBottom>
-                                    {comment.message}
-                                </Typography>
-                                <Typography></Typography>
-                            </Grid>
-                        </Grid>
                         </Link>
                     </Paper>
                 )
             })
         ) : (
-            <Paper className={this.props.classes.paper}>
+                <Paper className={this.props.classes.paper}>
                     <Link to="#" className={this.props.classes.link}>
                         <Grid container wrap="nowrap" spacing={2}>
                             <Grid item>
@@ -150,37 +148,37 @@ class Comments extends React.Component {
                                 <Typography></Typography>
                             </Grid>
                         </Grid>
-                        </Link>
-                    </Paper>
-        )
-        
+                    </Link>
+                </Paper>
+            )
+
         return (
             <div className={this.props.classes.root}>
                 <MenuNav />
-                    <Paper className={this.props.classes.paper}>
-                        <Grid container wrap="nowrap" spacing={2}>
-                            <Grid item>
-                            </Grid>
-                            <Grid item xs>
-                                <Typography variant="h5" gutterBottom>
-                                {this.state.title}
-                                </Typography>
-                                <Typography>
-                                {this.state.description}
-                                </Typography>
-                            </Grid>
+                <Paper className={this.props.classes.paper}>
+                    <Grid container wrap="nowrap" spacing={2}>
+                        <Grid item>
                         </Grid>
-                    </Paper>
-                    <Grid
-                        container
-                        className={this.props.classes.grid}
-                        direction="column"
-                        justify="flex-start"
-                        alignItems="flex-end"
-                        alignContent="center"
-                    >
+                        <Grid item xs>
+                            <Typography variant="h5" gutterBottom>
+                                {this.state.title}
+                            </Typography>
+                            <Typography>
+                                {this.state.description}
+                            </Typography>
+                        </Grid>
+                    </Grid>
+                </Paper>
+                <Grid
+                    container
+                    className={this.props.classes.grid}
+                    direction="column"
+                    justify="flex-start"
+                    alignItems="flex-end"
+                    alignContent="center"
+                >
                     <form className={this.props.classes.form} onSubmit={this.onBtnClick}>
-                    <TextField
+                        <TextField
                             value={this.state.message}
                             name="message"
                             onChange={this.handleChange}
@@ -189,8 +187,8 @@ class Comments extends React.Component {
                             variant="outlined"
                         />
                     </form>
-                        </Grid>
-                        {result}
+                </Grid>
+                {result}
             </div>
         );
     }
@@ -198,19 +196,19 @@ class Comments extends React.Component {
 
 Comments.propTypes = {
     comments: PropTypes.array.isRequired,
-  }
+}
 
-  const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = dispatch => {
     return {
-      setCommentAction: comment => dispatch(setComment(comment)),
-      setMyCommentAction: comment => dispatch(setMyComment(comment)),
+        setCommentAction: comment => dispatch(setComment(comment)),
+        setMyCommentAction: comment => dispatch(setMyComment(comment)),
     }
-  }
+}
 
 const mapStateToProps = store => {
     return {
         comments: store.comments,
     }
-  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(withStyles(classes)(Comments))

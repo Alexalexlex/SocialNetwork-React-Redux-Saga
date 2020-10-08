@@ -46,6 +46,7 @@ class Profile extends React.Component {
         super(props)
 
         this.state = {
+            posts: [],
             email: '',
             id: ''
         }
@@ -99,7 +100,9 @@ class Profile extends React.Component {
             .then(result => {
                 JSON.parse(result).forEach(element => {
                         if (element.user_id === this.state.id) {
-                            this.props.setPostAction(element)
+                            this.setState({
+                               posts : [...this.state.posts, element]
+                            })
                         }
                 })
             })
@@ -110,8 +113,8 @@ class Profile extends React.Component {
 
     render() {
         const { posts } = this.props
-        const result = (posts.length) ? (
-            posts.map((post) => {
+        const result = ([...this.state.posts, ...posts].length) ? (
+            [...this.state.posts, ...posts].map((post) => {
                 return (
                     <Paper className={this.props.classes.paper} key={Math.round(Date.now() * Math.random())}>
                         <Link to={`/posts/${post.id}`} className={this.props.classes.link}>

@@ -48,6 +48,7 @@ class Main extends React.Component {
         this.state = {
             title: '',
             description: '',
+            posts: [],
         }
 
         this.handleChange= this.handleChange.bind(this);
@@ -86,18 +87,20 @@ class Main extends React.Component {
             .then(response => response.text())
             .then(result => {
                 JSON.parse(result).slice(0,10).forEach(element => {
-                    this.props.setPostAction(element)
+                    this.setState({
+                        posts: [...this.state.posts,element]
+                    })
                 })
             })
             .catch(error => console.log('error', error));
-
+            console.log(this.state)
 
     }
     
     render() {
         const { posts } = this.props
-        const result = (posts.length) ? (
-            posts.map((post) => {
+        const result = ([...this.state.posts, ...posts].length) ? (
+            [...this.state.posts, ...posts].map((post) => {
                 return(
                     <Paper className={this.props.classes.paper} key={Math.round(Date.now()*Math.random())}>
                     <Link to={`/posts/${post.id}`} className={this.props.classes.link}>
