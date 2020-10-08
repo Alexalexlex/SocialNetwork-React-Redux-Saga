@@ -62,6 +62,9 @@ class Comments extends React.Component {
 
     onBtnClick(e) {
         e.preventDefault()
+        this.setState({
+            comments: [...this.state.comments, {message: this.state.message}]
+        })
         this.props.setMyCommentAction(this.state)
         this.setState({
             message: '',
@@ -77,7 +80,6 @@ class Comments extends React.Component {
 
     componentDidMount() {
         //comments
-
         let headers = {
             'client': localStorage.getItem('client'),
             'uid': localStorage.getItem('uid'),
@@ -114,9 +116,8 @@ class Comments extends React.Component {
     }
 
     render() {
-        const { comments } = this.props
-        const result = ([...this.state.comments, ...comments].length) ? (
-            [...this.state.comments, ...comments].map((comment) => {
+        const result = ([...this.state.comments].length) ? (
+            [...this.state.comments].map((comment) => {
                 return (
                     <Paper className={this.props.classes.paper} key={Math.round(Date.now() * Math.random())}>
                         <Link to="#" className={this.props.classes.link}>

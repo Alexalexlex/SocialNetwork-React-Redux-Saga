@@ -57,7 +57,7 @@ class SignUp extends React.Component {
     let check = 0
     for (let key in this.state) {
       if (Boolean(this.state[key])!==true) {
-         console.log('Vvedi blat', key)
+         console.log('Введи бл*ть', key)
         } else {
           check+=1
           }

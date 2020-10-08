@@ -93,9 +93,7 @@ class Main extends React.Component {
                 })
             })
             .catch(error => console.log('error', error));
-            console.log(this.state)
-
-    }
+        }
     
     render() {
         const { posts } = this.props

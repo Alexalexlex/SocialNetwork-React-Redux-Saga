@@ -1,4 +1,4 @@
-import { takeEvery } from 'redux-saga/effects'
+import { takeEvery, put } from 'redux-saga/effects'
 import { SET_USER } from './authAction'
 import { SUCCESS_AUTH } from './signInAction'
 import { SET_MY_COMMENT } from './commentsAction'
@@ -80,7 +80,6 @@ export function* sagaWatcherPost() {
 }
 
 async function fetchPost(payload) {
-
   const headers = {
         'access_token' : localStorage.getItem('access-token'),
         'client' : localStorage.getItem('client'),
@@ -97,7 +96,9 @@ async function fetchPost(payload) {
   
   fetch("https://postify-api.herokuapp.com/posts", requestOptions)
   .then(response => response.text())
-  .then(result => console.log(result))
+  .then(result => {
+    console.log((JSON.parse(result)).id)
+  })
   .catch(error => console.log('error', error));
 }
 
