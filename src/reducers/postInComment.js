@@ -1,6 +1,6 @@
 import { SET_POST_COMMENT } from '../actions/commentsAction'
 
-const initialState = []
+const initialState = {}
   
 export function postInComment(state = initialState, action) {
     switch (action.type) {
