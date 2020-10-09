@@ -85,9 +85,7 @@ class Comments extends React.Component {
     }
 
     render() {
-        const { comments, posts } = this.props
-        let title = posts[0] ? posts[0].title : ""
-        let description = posts[0] ? posts[0].description : ""
+        const { comments, postin } = this.props
         const cutComments = comments.slice(0,10)
         const result = (cutComments.length) ? (
             cutComments.map((comment) => {
@@ -135,10 +133,10 @@ class Comments extends React.Component {
                         </Grid>
                         <Grid item xs>
                             <Typography variant="h5" gutterBottom>
-                                {title}
+                                {postin.title}
                             </Typography>
                             <Typography>
-                                {description}
+                                {postin.description}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -182,7 +180,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = store => {
     return {
         comments: store.comments,
-        posts: store.posts,
+        postin: store.postin,
     }
 }
 

@@ -181,9 +181,8 @@ const profilePosts = yield fetch("https://postify-api.herokuapp.com/posts", requ
     .then(response => response.json(), )
 
     let filter = profilePosts.filter(element => {
-      if (element.user_id === data.data.id) {
-             return element
-        }})
+      return element.user_id === data.data.id
+    })
 
 yield put({ type: GET_USER_DATA, data: data })
 yield put({ type: GET_POSTS_SUCCESS, json: filter, });
