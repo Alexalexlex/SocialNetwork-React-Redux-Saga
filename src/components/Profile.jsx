@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuNav from './MenuNav';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setPost, setMyPost } from '../actions/postAction'
+import { setMyPost } from '../actions/postAction'
 import { Link } from 'react-router-dom'
 
 const classes = {
@@ -189,7 +189,6 @@ Profile.propTypes = {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setPostAction: post => dispatch(setPost(post)),
         setMyPostAction: post => dispatch(setMyPost(post)),
     }
 }

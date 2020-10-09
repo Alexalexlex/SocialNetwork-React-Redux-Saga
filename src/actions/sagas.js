@@ -1,8 +1,8 @@
-import { takeEvery, put, takeLatest } from 'redux-saga/effects'
+import { takeEvery, put } from 'redux-saga/effects'
 import { SET_USER } from './authAction'
 import { SUCCESS_AUTH } from './signInAction'
-import { SET_MY_COMMENT } from './commentsAction'
-import { SET_MY_POST, GET_POSTS } from './postAction'
+import { SET_MY_COMMENT, GET_COMMENTS, GET_COMMENTS_SUCCESS } from './commentsAction'
+import { SET_MY_POST, GET_POSTS, GET_POSTS_SUCCESS } from './postAction'
 
 export function* sagaWatcher() {
     yield takeEvery(SET_USER, fetchSignUp)
@@ -102,6 +102,8 @@ async function fetchPost(payload) {
   .catch(error => console.log('error', error));
 }
 
+//Get Posts
+
 export function* getPostsWatcher() {
      yield takeEvery(GET_POSTS, fetchAllPosts)
 }
@@ -121,19 +123,30 @@ function* fetchAllPosts() {
   const json = yield fetch("https://postify-api.herokuapp.com/posts", requestOptions)
   .then(response => response.json(), );
 
-  yield put({ type: "GET_POSTS_SUCCESS", json: json, });
+  yield put({ type: GET_POSTS_SUCCESS, json: json, });
 }
 
-// await fetch("https://postify-api.herokuapp.com/auth/sign_in", requestOptions)
-//         .then(response => {
-//           response.text()
-//           localStorage.setItem('access-token', response.headers.get('access-token'));
-//           localStorage.setItem('client', response.headers.get('client'));
-//           localStorage.setItem('uid', response.headers.get('uid'));
-//         })
-//             .then(result => {
-//               console.log(result)
-//               // window.location.href = '/'
-//                 })
-//         .catch (error => console.log('error', error))
-       
+//Get Comments
+
+export function* getCommentsWatcher() {
+  yield takeEvery(GET_COMMENTS, fetchAllComments)
+}
+
+function* fetchAllComments(payload) {
+
+  let headers = {
+    'client': localStorage.getItem('client'),
+    'uid': localStorage.getItem('uid'),
+    'access-token': localStorage.getItem('access-token')
+}
+let requestOptions = {
+    method: 'GET',
+    headers: headers,
+    redirect: 'follow'
+};
+
+const comments = yield fetch(`https://postify-api.herokuapp.com/posts/${payload.payload}/comments`, requestOptions)
+.then(response => response.json(), );
+
+  yield put({ type: GET_COMMENTS_SUCCESS, comments: comments, });
+}

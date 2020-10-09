@@ -8,8 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import MenuNav from './MenuNav';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setComment } from '../actions/commentsAction'
-import { setMyComment } from '../actions/commentsAction'
+import { setMyComment, getComments } from '../actions/commentsAction'
 import { Link } from 'react-router-dom'
 
 const classes = {
@@ -62,10 +61,12 @@ class Comments extends React.Component {
 
     onBtnClick(e) {
         e.preventDefault()
-        this.setState({
-            comments: [...this.state.comments, {message: this.state.message}]
-        })
-        this.props.setMyCommentAction(this.state)
+
+        const createComments= async () => {
+            await this.props.setMyCommentAction(this.state)
+            await this.props.getComments(this.state.postId)
+        }
+        createComments()
         this.setState({
             message: '',
         })
@@ -79,7 +80,9 @@ class Comments extends React.Component {
     }
 
     componentDidMount() {
-        //comments
+        this.props.getComments(this.state.postId)
+        // Post
+
         let headers = {
             'client': localStorage.getItem('client'),
             'uid': localStorage.getItem('uid'),
@@ -90,19 +93,6 @@ class Comments extends React.Component {
             headers: headers,
             redirect: 'follow'
         };
-
-        fetch(`https://postify-api.herokuapp.com/posts/${this.state.postId}/comments`, requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                JSON.parse(result).slice(0, 10).forEach(element => {
-                    this.setState({
-                        comments: [...this.state.comments, element]
-                    })
-                })
-            })
-            .catch(error => console.log('error', error));
-
-        // Post
 
         fetch(`https://postify-api.herokuapp.com/posts/${this.state.postId}`, requestOptions)
             .then(response => response.text())
@@ -116,8 +106,10 @@ class Comments extends React.Component {
     }
 
     render() {
-        const result = ([...this.state.comments].length) ? (
-            [...this.state.comments].map((comment) => {
+        const { comments } = this.props
+        const cutComments = comments.slice(0,10)
+        const result = (cutComments.length) ? (
+            cutComments.map((comment) => {
                 return (
                     <Paper className={this.props.classes.paper} key={Math.round(Date.now() * Math.random())}>
                         <Link to="#" className={this.props.classes.link}>
@@ -201,8 +193,8 @@ Comments.propTypes = {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setCommentAction: comment => dispatch(setComment(comment)),
         setMyCommentAction: comment => dispatch(setMyComment(comment)),
+        getComments: (id) => dispatch(getComments(id)),
     }
 }
 

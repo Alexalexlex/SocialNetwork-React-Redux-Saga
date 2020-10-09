@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setPost, setMyPost, getPosts } from '../actions/postAction'
+import { setMyPost, getPosts } from '../actions/postAction'
 import { Link } from 'react-router-dom'
 
 const classes = {
@@ -173,7 +173,6 @@ Main.propTypes = {
 
   const mapDispatchToProps = dispatch => {
     return {
-      setPostAction: post => dispatch(setPost(post)),
       setMyPostAction: post => dispatch(setMyPost(post)),
       getPosts: () => dispatch(getPosts()),
     }
