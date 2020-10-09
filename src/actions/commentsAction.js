@@ -1,6 +1,7 @@
 export const SET_MY_COMMENT = 'SET_MY_COMMENT'
 export const GET_COMMENTS = 'GET_COMMENTS'
 export const GET_COMMENTS_SUCCESS = 'GET_COMMENTS_SUCCESS'
+export const SET_POST_COMMENT = 'SET_POST_COMMENT'
 
 
 export function setMyComment(comment) {

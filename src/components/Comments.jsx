@@ -81,32 +81,10 @@ class Comments extends React.Component {
 
     componentDidMount() {
         this.props.getComments(this.state.postId)
-        // Post
-
-        let headers = {
-            'client': localStorage.getItem('client'),
-            'uid': localStorage.getItem('uid'),
-            'access-token': localStorage.getItem('access-token')
-        }
-        let requestOptions = {
-            method: 'GET',
-            headers: headers,
-            redirect: 'follow'
-        };
-
-        fetch(`https://postify-api.herokuapp.com/posts/${this.state.postId}`, requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                this.setState({
-                    title: JSON.parse(result).title,
-                    description: JSON.parse(result).description
-                })
-            })
-            .catch(error => console.log('error', error));
     }
 
     render() {
-        const { comments } = this.props
+        const { comments, posts } = this.props
         const cutComments = comments.slice(0,10)
         const result = (cutComments.length) ? (
             cutComments.map((comment) => {
@@ -154,10 +132,10 @@ class Comments extends React.Component {
                         </Grid>
                         <Grid item xs>
                             <Typography variant="h5" gutterBottom>
-                                {this.state.title}
+                                {posts.title}
                             </Typography>
                             <Typography>
-                                {this.state.description}
+                                {posts.description}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -201,6 +179,7 @@ const mapDispatchToProps = dispatch => {
 const mapStateToProps = store => {
     return {
         comments: store.comments,
+        posts: store.posts,
     }
 }
 

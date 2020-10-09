@@ -1,7 +1,7 @@
 import { takeEvery, put } from 'redux-saga/effects'
 import { SET_USER } from './authAction'
 import { SUCCESS_AUTH } from './signInAction'
-import { SET_MY_COMMENT, GET_COMMENTS, GET_COMMENTS_SUCCESS } from './commentsAction'
+import { SET_MY_COMMENT, GET_COMMENTS, GET_COMMENTS_SUCCESS, SET_POST_COMMENT } from './commentsAction'
 import { SET_MY_POST, GET_POSTS, GET_POSTS_SUCCESS } from './postAction'
 
 export function* sagaWatcher() {
@@ -149,4 +149,9 @@ const comments = yield fetch(`https://postify-api.herokuapp.com/posts/${payload.
 .then(response => response.json(), );
 
   yield put({ type: GET_COMMENTS_SUCCESS, comments: comments, });
+
+const post = yield fetch(`https://postify-api.herokuapp.com/posts/${payload.payload}`, requestOptions)
+.then(response => response.json(), )
+
+yield put ({type: SET_POST_COMMENT, post: post})
 }
