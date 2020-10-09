@@ -81,10 +81,13 @@ class Comments extends React.Component {
 
     componentDidMount() {
         this.props.getComments(this.state.postId)
+
     }
 
     render() {
         const { comments, posts } = this.props
+        let title = posts[0] ? posts[0].title : ""
+        let description = posts[0] ? posts[0].description : ""
         const cutComments = comments.slice(0,10)
         const result = (cutComments.length) ? (
             cutComments.map((comment) => {
@@ -132,10 +135,10 @@ class Comments extends React.Component {
                         </Grid>
                         <Grid item xs>
                             <Typography variant="h5" gutterBottom>
-                                {posts.title}
+                                {title}
                             </Typography>
                             <Typography>
-                                {posts.description}
+                                {description}
                             </Typography>
                         </Grid>
                     </Grid>

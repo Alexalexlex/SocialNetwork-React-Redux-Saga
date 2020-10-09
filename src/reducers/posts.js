@@ -16,7 +16,9 @@ export function postsReducer(state = initialState, action) {
             return reversePosts
 
             case SET_POST_COMMENT:
-              return { ...state, ...action.post }
+              return [...state, action.post]
+
+            
 
         default:
           return state

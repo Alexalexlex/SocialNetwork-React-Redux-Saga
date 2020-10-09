@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuNav from './MenuNav';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setMyPost } from '../actions/postAction'
+import { getPostsProfile } from '../actions/postAction'
 import { Link } from 'react-router-dom'
 
 const classes = {
@@ -47,71 +47,17 @@ class Profile extends React.Component {
             email: '',
             id: ''
         }
-
-        this.handleChange = this.handleChange.bind(this);
-        this.onBtnClick = this.onBtnClick.bind(this);
-    }
-
-    onBtnClick() {
-
-        (Boolean(this.state.title && this.state.description)) ? this.props.setMyPostAction(this.state) : alert('Введи сраный заголовок и описание')
-        this.setState({
-            title: '',
-            description: '',
-        })
-    }
-
-    handleChange(event) {
-        const name = event.target.name;
-        this.setState({
-            [name]: event.target.value
-        });
     }
 
     componentDidMount() {
-
-        let headers = {
-            'client': localStorage.getItem('client'),
-            'uid': localStorage.getItem('uid'),
-            'access-token': localStorage.getItem('access-token')
-        }
-
-        let requestOptions = {
-            method: 'GET',
-            headers: headers,
-            redirect: 'follow'
-        };
-          
-          fetch("https://postify-api.herokuapp.com/users/me", requestOptions)
-            .then(response => response.text())
-            .then(result => this.setState({
-                email : JSON.parse(result).data.uid,
-                id: JSON.parse(result).data.id
-            }))
-            .catch(error => console.log('error', error));
-
-            //Posts
-        
-        fetch("https://postify-api.herokuapp.com/posts", requestOptions)
-            .then(response => response.text())
-            .then(result => {
-                JSON.parse(result).forEach(element => {
-                        if (element.user_id === this.state.id) {
-                            this.setState({
-                               posts : [...this.state.posts, element]
-                            })
-                        }
-                })
-            })
-            .catch(error => console.log('error', error));
-
-
+        this.props.getPostsProfile()
     }
 
     render() {
-        const { posts } = this.props
-        const result = ([...this.state.posts, ...posts].length) ? (
-            [...this.state.posts, ...posts].map((post) => {
+        const { posts, user } = this.props
+        const cutPosts = posts.slice(0,10)
+        const result = (cutPosts.length) ? (
+            cutPosts.map((post) => {
                 return (
                     <Paper className={this.props.classes.paper} key={Math.round(Date.now() * Math.random())}>
                         <Link to={`/posts/${post.id}`} className={this.props.classes.link}>
@@ -173,7 +119,12 @@ class Profile extends React.Component {
                     </Grid>
                     <Grid item>
                         <Typography variant="h6" gutterBottom>
-                            email: {this.state.email}
+                            email: {user.uid}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h6" gutterBottom>
+                            User Id: {user.id}
                         </Typography>
                     </Grid>
                 </Grid>
@@ -189,13 +140,14 @@ Profile.propTypes = {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setMyPostAction: post => dispatch(setMyPost(post)),
+        getPostsProfile: () => dispatch(getPostsProfile()),
     }
 }
 
 const mapStateToProps = store => {
     return {
         posts: store.posts,
+        user: store.user,
 
     }
 }

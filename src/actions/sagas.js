@@ -1,8 +1,8 @@
 import { takeEvery, put } from 'redux-saga/effects'
-import { SET_USER } from './authAction'
+import { SET_USER, GET_USER_DATA } from './authAction'
 import { SUCCESS_AUTH } from './signInAction'
 import { SET_MY_COMMENT, GET_COMMENTS, GET_COMMENTS_SUCCESS, SET_POST_COMMENT } from './commentsAction'
-import { SET_MY_POST, GET_POSTS, GET_POSTS_SUCCESS } from './postAction'
+import { SET_MY_POST, GET_POSTS, GET_POSTS_SUCCESS, GET_POSTS_PROFILE } from './postAction'
 
 export function* sagaWatcher() {
     yield takeEvery(SET_USER, fetchSignUp)
@@ -154,4 +154,37 @@ const post = yield fetch(`https://postify-api.herokuapp.com/posts/${payload.payl
 .then(response => response.json(), )
 
 yield put ({type: SET_POST_COMMENT, post: post})
+}
+
+//Posts profile
+
+export function* getPostsProfileWatcher() {
+  yield takeEvery(GET_POSTS_PROFILE, fetchAllProfilePosts)
+}
+
+function* fetchAllProfilePosts() {
+let headers = {
+ 'client': localStorage.getItem('client'),
+ 'uid': localStorage.getItem('uid'),
+ 'access-token': localStorage.getItem('access-token')
+} 
+let requestOptions = {
+ method: 'GET',
+ headers: headers,
+ redirect: 'follow'
+};
+
+const data = yield fetch("https://postify-api.herokuapp.com/users/me", requestOptions)
+            .then(response => response.json(), )
+
+const profilePosts = yield fetch("https://postify-api.herokuapp.com/posts", requestOptions)
+    .then(response => response.json(), )
+
+    let filter = profilePosts.filter(element => {
+      if (element.user_id === data.data.id) {
+             return element
+        }})
+
+yield put({ type: GET_USER_DATA, data: data })
+yield put({ type: GET_POSTS_SUCCESS, json: filter, });
 }
