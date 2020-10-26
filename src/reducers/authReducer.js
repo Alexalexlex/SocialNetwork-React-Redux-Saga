@@ -8,7 +8,7 @@ export function userReducer(state = initialState, action) {
           return [...state, {first_name: action.payload.firstName, last_name: action.payload.lastName, email: action.payload.email, password: action.payload.password }]
     
         case GET_USER_DATA:
-        return { ...state, ...action.data.data }
+        return { ...state, ...action.data }
 
         default:
           return state

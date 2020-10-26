@@ -168,14 +168,13 @@ let requestOptions = {
  redirect: 'follow'
 };
 
-const data = yield fetch("https://postify-api.herokuapp.com/users/me", requestOptions)
+const data = yield fetch("http://localhost:8080/profile", requestOptions)
             .then(response => response.json(), )
 
 const profilePosts = yield fetch("http://localhost:8080/posts", requestOptions)
     .then(response => response.json(), )
-
     let filter = profilePosts.filter(element => {
-      return element.user_id === data.data.id
+      return element.user_id === data.id
     })
 
 yield put({ type: GET_USER_DATA, data: data })

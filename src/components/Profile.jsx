@@ -109,17 +109,17 @@ class Profile extends React.Component {
                     <br/>
                     <Grid item>
                         <Typography variant="h6" gutterBottom>
-                            Your name
+                            Your name: {user.first_name}
                         </Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="h6" gutterBottom>
-                            Your surname
+                            Your surname: {user.last_name}
                         </Typography>
                     </Grid>
                     <Grid item>
                         <Typography variant="h6" gutterBottom>
-                            email: {user.uid}
+                            email: {user.email}
                         </Typography>
                     </Grid>
                     <Grid item>
