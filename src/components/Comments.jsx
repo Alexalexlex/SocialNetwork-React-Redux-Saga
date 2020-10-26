@@ -86,6 +86,7 @@ class Comments extends React.Component {
 
     render() {
         const { comments, postin } = this.props
+        console.log(postin)
         const cutComments = comments.slice(0,10)
         const result = (cutComments.length) ? (
             cutComments.map((comment) => {

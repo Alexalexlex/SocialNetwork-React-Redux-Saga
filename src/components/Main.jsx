@@ -63,7 +63,7 @@ class Main extends React.Component {
             }
             createPost()
         } else {
-            alert('Введи сраный заголовок и описание')
+            alert('Введи заголовок и описание')
         }
         this.setState({
             title: '',

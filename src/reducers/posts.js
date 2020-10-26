@@ -12,7 +12,7 @@ export function postsReducer(state = initialState, action) {
             return [...state]
 
           case GET_POSTS_SUCCESS:
-            const reversePosts = [...state, ...action.json].reverse()
+            const reversePosts = [...action.json].reverse()
             return reversePosts
 
         default:

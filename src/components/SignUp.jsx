@@ -35,8 +35,8 @@ class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: '',
-      lastName: '',
+      first_name: '',
+      last_name: '',
       email: '',
       password: '',
     };
@@ -81,7 +81,7 @@ class SignUp extends React.Component {
               <TextField
                 onChange={this.handleInputChange}
                 autoComplete="fname"
-                name="firstName"
+                name="first_name"
                 variant="outlined"
                 required
                 fullWidth
@@ -98,7 +98,7 @@ class SignUp extends React.Component {
                 fullWidth
                 id="lastName"
                 label="Last Name"
-                name="lastName"
+                name="last_name"
                 autoComplete="lname"
               />
             </Grid>

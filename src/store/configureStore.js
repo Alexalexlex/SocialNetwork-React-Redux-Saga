@@ -1,12 +1,12 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware,compose } from 'redux'
 import { rootReducer } from '../reducers/rootReducer'
-import logger from 'redux-logger'
 import createSagaMiddleware from 'redux-saga'
 import { sagaWatcher, sagaWatcherSign, sagaWatcherComment, sagaWatcherPost, getPostsWatcher, getCommentsWatcher,getPostsProfileWatcher } from '../actions/sagas'
 
 const saga = createSagaMiddleware()
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-export const store = createStore(rootReducer, applyMiddleware(logger, saga))
+export const store = createStore(rootReducer,composeEnhancers(applyMiddleware(saga)))
 
 saga.run(sagaWatcher)
 saga.run(sagaWatcherSign)

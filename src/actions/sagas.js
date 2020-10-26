@@ -11,13 +11,17 @@ export function* sagaWatcher() {
 //Authorization (how change payload here and post it to store)
 
 async function fetchSignUp(payload) {
+  console.log(JSON.stringify(payload.payload))
         let requestOptions = {
           method: 'POST',
-          headers: payload.payload,
-          redirect: 'follow'
+          headers: {
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify(payload.payload),
+          redirect: 'follow',
         };
         
-          await fetch("https://postify-api.herokuapp.com/auth", requestOptions)
+          await fetch("http://localhost:8080/sign_up", requestOptions)
           window.location.href = '/signIn'
 }
 
@@ -26,18 +30,18 @@ export function* sagaWatcherSign() {
 } 
 
 async function fetchSignIn(payload) {
-        
+        console.log(JSON.stringify(payload.payload))
         let requestOptions = {
           method: 'POST',
-          headers: payload.payload,
-          redirect: 'follow'
+          headers: {
+            "Content-Type":"application/json"
+          },
+          body: JSON.stringify(payload.payload)
         };
 
-      let result = await fetch("https://postify-api.herokuapp.com/auth/sign_in", requestOptions)
-      if (result.headers.get('access-token')!== null){
-          localStorage.setItem('access-token', result.headers.get('access-token'));
-          localStorage.setItem('client', result.headers.get('client'));
-          localStorage.setItem('uid', result.headers.get('uid'));
+      let result = await fetch("http://localhost:8080/sign_in", requestOptions)
+      if (result.headers.get('Authorization')!== null){
+          localStorage.setItem('Authorization', result.headers.get('Authorization'));
 
           window.location.href = '/'
       } else 
@@ -52,9 +56,7 @@ export function* sagaWatcherComment() {
 async function fetchComment(payload) {
 
   const headers = {
-    'access_token' : localStorage.getItem('access-token'),
-    'client' : localStorage.getItem('client'),
-    'uid' : localStorage.getItem('uid'),
+    'Authorization' : localStorage.getItem('Authorization'),
     'Content-Type' : 'application/json'
 }
 
@@ -64,12 +66,12 @@ headers: headers,
 redirect: 'follow',
 body: JSON.stringify({
   "message": payload.payload.message,
-	"commentable_id": payload.payload.postId,
+	"postId": payload.payload.postId,
   "commentable_type": "Post"
 }),
 };
 
-fetch("https://postify-api.herokuapp.com/comments", requestOptions)
+fetch("http://localhost:8080/comments", requestOptions)
 .then(response => response.text())
 .then(result => console.log(result))
 .catch(error => console.log('error', error));
@@ -81,9 +83,7 @@ export function* sagaWatcherPost() {
 
 async function fetchPost(payload) {
   const headers = {
-        'access_token' : localStorage.getItem('access-token'),
-        'client' : localStorage.getItem('client'),
-        'uid' : localStorage.getItem('uid'),
+        'Authorization' : localStorage.getItem('Authorization'),
         'Content-Type' : 'application/json'
   }
 
@@ -94,7 +94,7 @@ async function fetchPost(payload) {
     body: JSON.stringify(payload.payload),
   };
   
-  fetch("https://postify-api.herokuapp.com/posts", requestOptions)
+  fetch("http://localhost:8080/posts", requestOptions)
   .then(response => response.text())
   .then(result => {
     console.log(result)
@@ -110,9 +110,7 @@ export function* getPostsWatcher() {
 
 function* fetchAllPosts() {
   let headers = {
-    'client': localStorage.getItem('client'),
-    'uid': localStorage.getItem('uid'),
-    'access-token': localStorage.getItem('access-token')
+    'Authorization': localStorage.getItem('Authorization')
   } 
   let requestOptions = {
     method: 'GET',
@@ -120,7 +118,7 @@ function* fetchAllPosts() {
     redirect: 'follow'
   };
 
-  const json = yield fetch("https://postify-api.herokuapp.com/posts", requestOptions)
+  const json = yield fetch("http://localhost:8080/posts", requestOptions)
   .then(response => response.json(), );
 
   yield put({ type: GET_POSTS_SUCCESS, json: json, });
@@ -135,9 +133,7 @@ export function* getCommentsWatcher() {
 function* fetchAllComments(payload) {
 
   let headers = {
-    'client': localStorage.getItem('client'),
-    'uid': localStorage.getItem('uid'),
-    'access-token': localStorage.getItem('access-token')
+    'Authorization': localStorage.getItem('Authorization')
 }
 let requestOptions = {
     method: 'GET',
@@ -145,12 +141,12 @@ let requestOptions = {
     redirect: 'follow'
 };
 
-const comments = yield fetch(`https://postify-api.herokuapp.com/posts/${payload.payload}/comments`, requestOptions)
+const comments = yield fetch(`http://localhost:8080/comments/${payload.payload}`, requestOptions)
 .then(response => response.json(), );
 
   yield put({ type: GET_COMMENTS_SUCCESS, comments: comments, });
 
-const post = yield fetch(`https://postify-api.herokuapp.com/posts/${payload.payload}`, requestOptions)
+const post = yield fetch(`http://localhost:8080/posts/${payload.payload}`, requestOptions)
 .then(response => response.json(), )
 
 yield put ({type: SET_POST_COMMENT, post: post})
@@ -164,9 +160,7 @@ export function* getPostsProfileWatcher() {
 
 function* fetchAllProfilePosts() {
 let headers = {
- 'client': localStorage.getItem('client'),
- 'uid': localStorage.getItem('uid'),
- 'access-token': localStorage.getItem('access-token')
+ 'Authorization': localStorage.getItem('Authorization')
 } 
 let requestOptions = {
  method: 'GET',
@@ -177,7 +171,7 @@ let requestOptions = {
 const data = yield fetch("https://postify-api.herokuapp.com/users/me", requestOptions)
             .then(response => response.json(), )
 
-const profilePosts = yield fetch("https://postify-api.herokuapp.com/posts", requestOptions)
+const profilePosts = yield fetch("http://localhost:8080/posts", requestOptions)
     .then(response => response.json(), )
 
     let filter = profilePosts.filter(element => {
