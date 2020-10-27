@@ -187,17 +187,28 @@ export function* postEditWatcher(){
 }
 
 const fetchEditPost = async (payload) => {
-console.log('edit')
   let headers = {
-    'Authorization': localStorage.getItem('Authorization')
+    'Authorization': localStorage.getItem('Authorization'),
+    "Content-Type": "application/json",
    } 
 
   let requestOptions = {
     method: 'PUT',
     headers: headers,
+    body: JSON.stringify({
+      title: payload.post.title,
+      description: payload.post.description,
+    }),
     redirect: 'follow'
   }
+
+  fetch(`http://localhost:8080/posts/${payload.post.id}`, requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
 }
+
+
 
 //Posts profile
 

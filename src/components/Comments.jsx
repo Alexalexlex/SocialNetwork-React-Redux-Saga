@@ -63,6 +63,7 @@ class Comments extends React.Component {
         this.onBtnClick = this.onBtnClick.bind(this);
         this.deletePost = this.deletePost.bind(this);
         this.editPost = this.editPost.bind(this);
+        this.handleChangeEdit = this.handleChangeEdit.bind(this);
     }
 
     onBtnClick(e) {
@@ -94,8 +95,30 @@ class Comments extends React.Component {
     }
 
     editPost() {
+        if (this.state.edit){
+            this.props.editPostAction({
+                title: this.state.title,
+                description: this.state.description,
+                id: this.state.postId,
+            })
 
-        // this.props.editPostAction(this.state.postId)
+            this.setState({
+                edit: !this.state.edit
+            })
+        } else {
+            this.setState({
+                title: '',
+                description: '',
+                edit: !this.state.edit,
+            })
+        }   
+    }
+
+    handleChangeEdit(event) {
+        const name = event.target.name;
+        this.setState({
+          [name]: event.target.value
+        });
     }
 
     render() {
@@ -146,20 +169,44 @@ class Comments extends React.Component {
                         <Grid item>
                         </Grid>
                         <Grid item xs>
+                            {!this.state.edit && 
+                            <>
                             <Typography variant="h5" gutterBottom>
                                 {postin.title}
                             </Typography>
                             <Typography>
                                 {postin.description}
                             </Typography>
+                        </>
+                            }
+                            {this.state.edit &&
+                                <>
+                                <TextField
+                                    value={this.state.title}
+                                    name="title"
+                                    onChange={this.handleChangeEdit}
+                                    className={this.props.classes.input}
+                                    label="Title"
+                                    variant="outlined"
+                                />
+                                <TextField
+                                    value={this.state.description}
+                                    name="description"
+                                    onChange={this.handleChangeEdit}
+                                    className={this.props.classes.input}
+                                    label="Description"
+                                    variant="outlined"
+                                />
+                            </>
+                            }
                         </Grid>
                         <Grid item>
-                        <IconButton aria-label="delete" onClick={this.deletePost}>
+                            <IconButton aria-label="delete" onClick={this.deletePost}>
                                 <DeleteIcon />
-                        </IconButton>
-                        <IconButton aria-label="delete" onClick={this.editPost}>
-                            <CreateIcon />
-                        </IconButton>
+                            </IconButton>
+                            <IconButton aria-label="delete" onClick={this.editPost}>
+                                <CreateIcon />
+                            </IconButton>
                         </Grid>
                     </Grid>
                 </Paper>
@@ -197,7 +244,7 @@ const mapDispatchToProps = dispatch => {
         setMyCommentAction: comment => dispatch(setMyComment(comment)),
         getComments: (id) => dispatch(getComments(id)),
         deletePostAction: (id) => dispatch(deletePost(id)),
-        editPostAction: (id) => dispatch(editPost(id)),
+        editPostAction: (post) => dispatch(editPost(post)),
     }
 }
 
