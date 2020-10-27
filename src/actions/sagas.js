@@ -186,7 +186,7 @@ export function* postEditWatcher(){
   yield takeEvery(EDIT_POST, fetchEditPost)
 }
 
-const fetchEditPost = async (payload) => {
+function* fetchEditPost(payload) {
   let headers = {
     'Authorization': localStorage.getItem('Authorization'),
     "Content-Type": "application/json",
@@ -202,10 +202,21 @@ const fetchEditPost = async (payload) => {
     redirect: 'follow'
   }
 
-  fetch(`http://localhost:8080/posts/${payload.post.id}`, requestOptions)
+  yield fetch(`http://localhost:8080/posts/${payload.post.id}`, requestOptions)
   .then(response => response.text())
   .then(result => console.log(result))
   .catch(error => console.log('error', error));
+
+  let requestOptionsPost = {
+    method: 'GET',
+    headers: headers,
+    redirect: 'follow'
+};
+
+const post = yield fetch(`http://localhost:8080/posts/${payload.post.id}`, requestOptionsPost)
+.then(response => response.json(), )
+
+yield put ({type: SET_POST_COMMENT, post: post})
 }
 
 
