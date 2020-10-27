@@ -1,7 +1,7 @@
 import { takeEvery, put } from 'redux-saga/effects'
 import { SET_USER, GET_USER_DATA } from './authAction'
 import { SUCCESS_AUTH } from './signInAction'
-import { SET_MY_COMMENT, GET_COMMENTS, GET_COMMENTS_SUCCESS, SET_POST_COMMENT } from './commentsAction'
+import { SET_MY_COMMENT, GET_COMMENTS, GET_COMMENTS_SUCCESS, SET_POST_COMMENT, DELETE_POST, EDIT_POST } from './commentsAction'
 import { SET_MY_POST, GET_POSTS, GET_POSTS_SUCCESS, GET_POSTS_PROFILE } from './postAction'
 
 export function* sagaWatcher() {
@@ -82,6 +82,7 @@ export function* sagaWatcherPost() {
 }
 
 async function fetchPost(payload) {
+
   const headers = {
         'Authorization' : localStorage.getItem('Authorization'),
         'Content-Type' : 'application/json'
@@ -122,6 +123,7 @@ function* fetchAllPosts() {
   .then(response => response.json(), );
 
   yield put({ type: GET_POSTS_SUCCESS, json: json, });
+
 }
 
 //Get Comments
@@ -144,12 +146,57 @@ let requestOptions = {
 const comments = yield fetch(`http://localhost:8080/comments/${payload.payload}`, requestOptions)
 .then(response => response.json(), );
 
-  yield put({ type: GET_COMMENTS_SUCCESS, comments: comments, });
+yield put({ type: GET_COMMENTS_SUCCESS, comments: comments, });
 
 const post = yield fetch(`http://localhost:8080/posts/${payload.payload}`, requestOptions)
 .then(response => response.json(), )
 
 yield put ({type: SET_POST_COMMENT, post: post})
+
+}
+
+
+// Post Delete
+
+export function* postDeleteWatcher() {
+yield takeEvery(DELETE_POST, fetchDeletePost)
+}
+
+async function fetchDeletePost(payload) {
+
+  let headers = {
+    'Authorization': localStorage.getItem('Authorization')
+   } 
+
+  let requestOptions = {
+    method: 'DELETE',
+    headers: headers,
+    redirect: 'follow'
+  }
+
+  fetch(`http://localhost:8080/posts/${payload.id}`, requestOptions)
+  .then((res) => console.log('Deleted Now'))
+
+  window.location.href = '/'
+}
+
+// Post Edit
+
+export function* postEditWatcher(){
+  yield takeEvery(EDIT_POST, fetchEditPost)
+}
+
+const fetchEditPost = async (payload) => {
+console.log('edit')
+  let headers = {
+    'Authorization': localStorage.getItem('Authorization')
+   } 
+
+  let requestOptions = {
+    method: 'PUT',
+    headers: headers,
+    redirect: 'follow'
+  }
 }
 
 //Posts profile
@@ -159,14 +206,17 @@ export function* getPostsProfileWatcher() {
 }
 
 function* fetchAllProfilePosts() {
+
 let headers = {
  'Authorization': localStorage.getItem('Authorization')
 } 
+
 let requestOptions = {
  method: 'GET',
  headers: headers,
  redirect: 'follow'
 };
+
 
 const data = yield fetch("http://localhost:8080/profile", requestOptions)
             .then(response => response.json(), )
@@ -179,4 +229,5 @@ const profilePosts = yield fetch("http://localhost:8080/posts", requestOptions)
 
 yield put({ type: GET_USER_DATA, data: data })
 yield put({ type: GET_POSTS_SUCCESS, json: filter, });
+
 }

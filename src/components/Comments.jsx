@@ -8,8 +8,11 @@ import TextField from '@material-ui/core/TextField'
 import MenuNav from './MenuNav';
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
-import { setMyComment, getComments } from '../actions/commentsAction'
+import { setMyComment, getComments, deletePost, editPost } from '../actions/commentsAction'
 import { Link } from 'react-router-dom'
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import CreateIcon from '@material-ui/icons/Create';
 
 const classes = {
     root: {
@@ -40,7 +43,7 @@ const classes = {
     form: {
         width: '100%',
         marginLeft: '20%',
-    }
+    },
 };
 
 class Comments extends React.Component {
@@ -53,16 +56,19 @@ class Comments extends React.Component {
             description: '',
             postId: window.location.pathname.substr(7),
             comments: [],
+            edit: false,
         }
 
         this.handleChange = this.handleChange.bind(this);
         this.onBtnClick = this.onBtnClick.bind(this);
+        this.deletePost = this.deletePost.bind(this);
+        this.editPost = this.editPost.bind(this);
     }
 
     onBtnClick(e) {
         e.preventDefault()
 
-        const createComments= async () => {
+        const createComments = async () => {
             await this.props.setMyCommentAction(this.state)
             await this.props.getComments(this.state.postId)
         }
@@ -81,13 +87,20 @@ class Comments extends React.Component {
 
     componentDidMount() {
         this.props.getComments(this.state.postId)
+    }
 
+    deletePost() {
+        this.props.deletePostAction(this.state.postId)
+    }
+
+    editPost() {
+
+        // this.props.editPostAction(this.state.postId)
     }
 
     render() {
         const { comments, postin } = this.props
-        console.log(postin)
-        const cutComments = comments.slice(0,10)
+        const cutComments = comments.slice(0, 10)
         const result = (cutComments.length) ? (
             cutComments.map((comment) => {
                 return (
@@ -140,6 +153,14 @@ class Comments extends React.Component {
                                 {postin.description}
                             </Typography>
                         </Grid>
+                        <Grid item>
+                        <IconButton aria-label="delete" onClick={this.deletePost}>
+                                <DeleteIcon />
+                        </IconButton>
+                        <IconButton aria-label="delete" onClick={this.editPost}>
+                            <CreateIcon />
+                        </IconButton>
+                        </Grid>
                     </Grid>
                 </Paper>
                 <Grid
@@ -175,6 +196,8 @@ const mapDispatchToProps = dispatch => {
     return {
         setMyCommentAction: comment => dispatch(setMyComment(comment)),
         getComments: (id) => dispatch(getComments(id)),
+        deletePostAction: (id) => dispatch(deletePost(id)),
+        editPostAction: (id) => dispatch(editPost(id)),
     }
 }
 

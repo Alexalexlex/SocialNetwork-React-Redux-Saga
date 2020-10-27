@@ -1,6 +1,5 @@
 import { SET_MY_POST, GET_POSTS, GET_POSTS_SUCCESS } from '../actions/postAction'
 
-
 const initialState = []
   
 export function postsReducer(state = initialState, action) {
