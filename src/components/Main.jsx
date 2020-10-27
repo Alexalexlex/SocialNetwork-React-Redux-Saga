@@ -70,7 +70,7 @@ class Main extends React.Component {
             description: '',
         })
     }
-
+//
     handleChange(event) {
         const name = event.target.name;
         this.setState({
